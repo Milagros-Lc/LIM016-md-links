@@ -1,13 +1,45 @@
 
 /* module.exports = () => {
-
 }; */
+/* const mdLinks = require("md-links");
+ */
 
 const fs = require('fs');
-fs.readFile('./ejemplo.txt',function(error,datos) {
-  if(error){
-    console.log(error);
+const path = require('path');
+
+console.log("Por favor, ingrese ruta");
+const ruta = process.openStdin();
+ruta.addListener("data", function (r) {
+ const rutaConvert = r.toString();
+ fs.readdir(rutaConvert.replace(/\r?\n|\r/g,"") , function (err,datos){
+  if (err) {
+    console.log("Ruta no encontrada",err);
   }
-  console.log(datos.toString());
+  console.log(datos.toString());  
+ });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
