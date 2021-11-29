@@ -20,7 +20,6 @@ ruta.addListener("data", function (r) {
       console.log("Ruta no encontrada");
     }else
       recorrerFiles(data);
-
   });
 });
 function recorrerFiles(data) {
@@ -37,8 +36,37 @@ function recorrerFiles(data) {
     if (exten == ".md") {
       console.log(path.basename(element));
       const x = path.basename(element);
-    /*   console.log("ruta nueva", element); */
-     
+   /*    console.log("ruta nueva", element); */
+      fs.readFile(element.replace(/\r?\n|\r/g, ""), function (err, datos) {
+        if (err) {
+          console.log(err);
+        }
+       /*  console.log(datos.toString()); */
+        //aqui empiezoo
+        const readInterface = readline.createInterface({
+          input: fs.createReadStream(element),
+        /*   output: process.stdout, */
+          console: false
+        });
+        readInterface.on('line', function(line) {
+        /*   console.log("se lee linea ",line.replace(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g,"mama)")); */
+          position=line.search(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g);
+          let linea=line;
+         /*  console.log("aaaaaaaaaa",position); */
+          if(position!=-1){
+
+            let httpp=linea.split("](");
+           /*  console.log("est es mi primer",httpp); */
+             l=httpp[1].split(")");
+            /*   console.log("auxilioooo",l); */
+
+        /*     let y=l.split(")");
+ */
+          console.log("Obteniendo  enlace",l[0]);  
+          }
+      });
+        //aqui termino
+      });
     }
   }
 }
@@ -52,9 +80,8 @@ function recursiveFile(dir, done) {
     list.forEach(function (file) {
       file = path.resolve(dir, file);
       fs.stat(file, function (err, stat) {
-        // If directory, execute a recursive call
+        //Si es directorio, ejecuta una llamada recursiva
         if (stat && stat.isDirectory()) {
-          // Add directory to array [comment if you need to remove the directories from the array]
           results.push(file);
           recursiveFile(file, function (err, res) {
             results = results.concat(res);
