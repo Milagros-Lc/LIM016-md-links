@@ -7,7 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
-
+const readline = require('readline');
 
 let rutaConvert;
 console.log("Por favor, ingrese ruta");
@@ -18,11 +18,30 @@ ruta.addListener("data", function (r) {
   recursiveFile(rutaConvert.replace(/\r?\n|\r/g, ""), function (err, data) {
     if (err) {
       console.log("Ruta no encontrada");
-    }
-    console.log(data)
-  
+    }else
+      recorrerFiles(data);
+
   });
 });
+function recorrerFiles(data) {
+  if (data.length == "") {
+    console.log("Archivo vacio");
+  }
+
+  data.map(element => mdFile(element));
+
+  function mdFile(element) {
+    let position;
+    let l;
+    const exten = path.extname(element);
+    if (exten == ".md") {
+      console.log(path.basename(element));
+      const x = path.basename(element);
+    /*   console.log("ruta nueva", element); */
+     
+    }
+  }
+}
 
 function recursiveFile(dir, done) {
   let results = [];
