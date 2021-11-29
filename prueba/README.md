@@ -1,7 +1,9 @@
-node.js es un entorno de ejecucion de javascript
-incluye todo lo que necesita para ejecutar
- un programa escrito en JavaScript.
- 
+# joi
+
+### Visit the [joi.dev](https://joi.dev) Developer Portal for tutorials, documentation, and support
+
+## Useful resources
+
 - [Documentation and API](https://joi.dev/api/)
 - [Versions status](https://joi.dev/resources/status/#joi)
 - [Changelog](https://joi.dev/resources/changelog/)
