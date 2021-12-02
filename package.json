@@ -1,7 +1,17 @@
 {
   "name": "md-links",
   "version": "0.1.0",
+ 
+  "scripts": {
+    
+    "eslint": "eslint --ext .js src/ test/",
+    "pretest": "npm run eslint && npm run htmlhint",
+    "test": "jest --verbose --coverage"
+  },
   "dependencies": {
-    "joi": "^17.4.2"
+    "babel-jest": "27.0.1",
+    "eslint": "^7.12.1",
+    "jest": "^27.0.1"
   }
+ 
 }
