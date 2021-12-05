@@ -1,35 +1,37 @@
 
 const mdLinks = require('./md-links');
-let option={validate:""}
+let option = { validate: "" }
 let rutaConvert;
-let links={};
-  console.log("Por favor, ingrese ruta");
-  let ruta = process.openStdin();
-  ruta.addListener("data", function (ruta2) {
-    if (ruta2.toString().replace(/\r?\n|\r/g, "") == "") {
-      console.log("ingrese ruta");
-      ruta2 = process.openStdin();
-    } else {
-      ruta.removeAllListeners();
-      rutaConvert = ruta2.toString().replace(/\r?\n|\r/g, "");
-      chooseOption(rutaConvert);
-    }
-  });
+console.log("Por favor, ingrese ruta");
+let ruta = process.openStdin();
+ruta.addListener("data", function (ruta2) {
+  if (ruta2.toString().replace(/\r?\n|\r/g, "") == "") {
+    console.log("ingrese ruta");
+    ruta2 = process.openStdin();
+  } else {
+    ruta.removeAllListeners();
+    rutaConvert = ruta2.toString().replace(/\r?\n|\r/g, "");
+    chooseOption(rutaConvert);
+  }
+});
 
 function chooseOption(rutaConvert) {
 
   console.log("Por favor, ingrese opción (si - no) para verificar links");
   let options = process.openStdin();
   options.addListener("data", function (opt) {
-     option.validate = opt.toString().replace(/\r?\n|\r/g, "");
+    option.validate = opt.toString().replace(/\r?\n|\r/g, "");
 
     if (option.validate == "") {
       console.log("ingrese opcion");
       opt = process.openStdin();
     } else
       if (option.validate == "si" || option.validate == "no") {
-        mdLinks(rutaConvert, option.validate)/* .then(links) */ ;        
-//mdLinks("./some/example.md").then(links => {  // => [{ href, text, file }, ...]})
+
+        mdLinks(rutaConvert, option.validate)
+          .then( )
+          .catch(error => console.log(error))
+
       } else {
         console.log("ingrese si/no opcion");
         option.validate = process.openStdin();

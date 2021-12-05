@@ -1,19 +1,27 @@
 
 const fs = require('fs');
-
 const path = require('path');
 const readline = require('readline');
+var https = require('https');
+let suma = [];
 
-const mdLinks = function (rutaConvert, options) {
+function mdLinks(rutaConvert, options) {
 
   options == "si" ? options = true : options = false;
 
-  recursiveFile(rutaConvert.replace(/\r?\n|\r/g, ""), function (err, data) {
-    if (err) {
-      console.log("Ruta no encontrada");
-    } else
-      recorrerFiles(data, options);
-  });
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      recursiveFile(rutaConvert.replace(/\r?\n|\r/g, ""), function (err, data) {
+        if (data != "") {
+          resolve(recorrerFiles(data, options));
+        }
+        else {
+          reject('Ruta ingresada no existe');
+        }
+      });
+
+    }, 2000)
+  })
 
 }
 function recorrerFiles(data, options) {
@@ -27,8 +35,8 @@ function recorrerFiles(data, options) {
     let arrayObject = [];
     let position;
     let newArray;
-
     let link = {};
+
     const exten = path.extname(element);
     if (exten == ".md") {
       console.log(path.basename(element));
@@ -43,7 +51,7 @@ function recorrerFiles(data, options) {
         const readInterface = readline.createInterface({
           input: fs.createReadStream(element),
           /*   output: process.stdout, */
-          console: false
+          /*  console: false */
         });
         readInterface.on('line', function (line) {
           /*   console.log("se lee linea ",line.replace(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g,"probando)")); */
@@ -57,6 +65,7 @@ function recorrerFiles(data, options) {
               newArray = httpp[1].split(")");
               console.log("Obteniendo  enlace", newArray[0]);
 
+              suma.push(newArray[0]);
               link = {
                 "href": newArray[0],
                 "text": httpp[0],
@@ -64,9 +73,8 @@ function recorrerFiles(data, options) {
               }
 
               arrayObject.push(link);
-              console.log("🚀 ~ file: md-links.js ~ line 67 ~ arrayObject", arrayObject)
-        
-             
+              console.log("🚀link", link );
+              verifyUrl(newArray[0]);
 
             }
           }
@@ -75,12 +83,22 @@ function recorrerFiles(data, options) {
     }
   }
 }
-//verificar url
 
-//fin de verificar
+function verifyUrl(url) {
+  https.get(url, function (res) {
+    let result = res.statusCode;
+    if (result === 200) {
+      return console.log("ok");
+    }
+    /*   console.log("headers: ", res.headers);  
+      res.on('data', function (d) {
+        process.stdout.write(d);
+      }); */
+  }).on('error', function (e) {
+    return console.log("fail");
 
-
-
+  });
+}
 
 function recursiveFile(dir, done) {
   let results = [];
@@ -91,7 +109,7 @@ function recursiveFile(dir, done) {
     list.forEach(function (file) {
       file = path.resolve(dir, file);
       fs.stat(file, function (err, stat) {
-             
+
         //Si es directorio, ejecuta una llamada recursiva
         if (stat && stat.isDirectory()) {
           results.push(file);

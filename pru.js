@@ -6,8 +6,9 @@ https.get('https://www.google.com/', function(res) {
 
   res.on('data', function(d) {
     process.stdout.write(d);
+    
   });
-
+  
 }).on('error', function(e) {
   console.error(e);
 });
