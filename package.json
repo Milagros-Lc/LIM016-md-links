@@ -6,6 +6,10 @@
     "md-links": "dist/index.js"
   },
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milagros-Lc/LIM016-md-links"
+  },
   "scripts": {
     "eslint": "eslint --ext .js test/",
     "pretest": "npm run eslint && npm run ",
