@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-//import mdLinks from './md-links';
 "use strict";
 
-const mdLinks = require('./md-links');
+var _mdLinks = _interopRequireDefault(require("./md-links"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//const mdLinks = require('./md-links');
 const arg = process.argv.slice(2);
 let ruta = '';
 
@@ -56,7 +58,7 @@ function chooseOption(rutaConvert, option) {
   if (option.validate == "") {//console.log("ingrese opcion");
     // opt = process.openStdin();
   } else if (option.validate == "si" || option.validate == "no") {
-    mdLinks(rutaConvert, option.validate).then().catch(error => console.log(error));
+    (0, _mdLinks.default)(rutaConvert, option.validate).then().catch(error => console.log(error));
   } else {
     console.log("ingrese si/no opcion"); // option.validate = process.openStdin();
   } // });

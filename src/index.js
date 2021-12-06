@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-//import mdLinks from './md-links';
-const mdLinks = require('./md-links');
+import mdLinks from './md-links';
+//const mdLinks = require('./md-links');
 const arg = process.argv.slice(2);
 let ruta = '';
 
