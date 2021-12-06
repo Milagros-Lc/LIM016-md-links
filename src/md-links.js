@@ -1,4 +1,4 @@
-
+#!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
@@ -70,12 +70,25 @@ function recorrerFiles(data, options) {
                 "href": newArray[0],
                 "text": httpp[0],
                 "file": element,
+                "status": ''
               }
-
-              arrayObject.push(link);
-              console.log("🚀link", link );
-              verifyUrl(newArray[0]);
-
+              https.get(newArray[0], function (res) {
+                let result = res.statusCode;
+                if (result === 200) {
+                  //return console.log("ok");
+                  link.status = 'ok';
+                  arrayObject.push(link);
+                } 
+                  console.log("🚀link", link );
+              }).on('error', function (e) {
+                // return console.log("fail");
+                link.status = 'fail';
+                arrayObject.push(link);
+                console.log("🚀link", link );
+              });
+              // verifyUrl(newArray[0]);
+              // arrayObject.push(link);
+              // console.log("🚀link", link );
             }
           }
         });

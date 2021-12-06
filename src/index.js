@@ -1,8 +1,30 @@
-
+#!/usr/bin/env node
+//import mdLinks from './md-links';
 const mdLinks = require('./md-links');
+const arg = process.argv.slice(2);
+let ruta = '';
+
+if(arg.length === 1){
+  console.log(arg[0]);
+  ruta = arg[0]; 
+  chooseOption(ruta);
+}
+if(arg.length === 2){
+  let secondParam = '';
+  if(arg[1] === '--validate'){
+    secondParam = arg[1];
+  } else if(arg[1] === '--stats'){ 
+    secondParam = arg[1];
+  }
+  chooseOption(arg[0], { validate: arg[1]});
+}
+/* if(arg.length === 3){
+    console.log(arg[0], arg[1], arg[2]);
+} */
+
 let option = { validate: "" }
 let rutaConvert;
-console.log("Por favor, ingrese ruta");
+/* console.log("Por favor, ingrese ruta");
 let ruta = process.openStdin();
 ruta.addListener("data", function (ruta2) {
   if (ruta2.toString().replace(/\r?\n|\r/g, "") == "") {
@@ -13,18 +35,18 @@ ruta.addListener("data", function (ruta2) {
     rutaConvert = ruta2.toString().replace(/\r?\n|\r/g, "");
     chooseOption(rutaConvert);
   }
-});
+}); */
 
-function chooseOption(rutaConvert) {
+function chooseOption(rutaConvert, option) {
 
-  console.log("Por favor, ingrese opción (si - no) para verificar links");
-  let options = process.openStdin();
-  options.addListener("data", function (opt) {
-    option.validate = opt.toString().replace(/\r?\n|\r/g, "");
+ // console.log("Por favor, ingrese opción (si - no) para verificar links");
+  //let options = process.openStdin();
+ // options.addListener("data", function (opt) {
+    //option.validate = opt.toString().replace(/\r?\n|\r/g, "");
 
     if (option.validate == "") {
-      console.log("ingrese opcion");
-      opt = process.openStdin();
+      //console.log("ingrese opcion");
+      // opt = process.openStdin();
     } else
       if (option.validate == "si" || option.validate == "no") {
 
@@ -34,9 +56,9 @@ function chooseOption(rutaConvert) {
 
       } else {
         console.log("ingrese si/no opcion");
-        option.validate = process.openStdin();
+        // option.validate = process.openStdin();
       }
-  });
+ // });
 }
 //---------------------------------------------------------------------------------------------------------------
 /* const fs = require('fs');
