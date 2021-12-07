@@ -67,25 +67,13 @@ function recorrerFiles(data, options) {
             if (httpp[1] != undefined) {
               newArray = httpp[1].split(")");
               link = {
-                "href": newArray[0],
-                "text": httpp[0],
-                "file": "./" + rutaMinificada,
+                "href": '',
+                "text": '',
+                "file": '',
                 "status": '',
                 "sms": ''
               };
-              https.get(newArray[0], function (res) {
-                let result = res.statusCode;
-
-                if (result === 200) {
-                  link.status = result;
-                  link.sms = 'ok';
-                }
-              }).on('error', function (e) {
-                link.status = '404';
-                link.sms = 'fail';
-              });
-              console.log(" ", link.file, " ", link.href, " ", link.status, " ", link.sms, " ", link.text); //console.log("🚀linkiiiiiiiiiiiiiiiiiiii", link );
-              //arrayObject.push(link);
+              validateFun(link, newArray[0], httpp[0], rutaMinificada).then(linkk => console.log(linkk.file, " ", linkk.href, " ", linkk.status, " ", linkk.sms, " ", linkk.text)).catch(error => console.log(error));
             }
           }
         });
@@ -93,6 +81,55 @@ function recorrerFiles(data, options) {
     }
   }
 }
+
+function validateFun(link, newArray, httpp, rutaMinificada) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      https.get(newArray, function (res) {
+        let result = res.statusCode;
+
+        if (result === 200) {
+          result = "200";
+          link = {
+            "href": newArray,
+            "text": httpp,
+            "file": "./" + rutaMinificada,
+            "status": result,
+            "sms": 'ok'
+          };
+          resolve(link);
+          reject('errorrrrrrrrrr');
+        }
+      });
+    }, 2000);
+  });
+}
+
+function recursiveFile(dir, done) {
+  let results = [];
+  fs.readdir(dir, function (err, list) {
+    if (err) return done(err);
+    let pending = list.length;
+    if (!pending) return done(null, results);
+    list.forEach(function (file) {
+      file = path.resolve(dir, file);
+      fs.stat(file, function (err, stat) {
+        if (stat && stat.isDirectory()) {
+          results.push(file);
+          recursiveFile(file, function (err, res) {
+            results = results.concat(res);
+            if (! --pending) done(null, results);
+          });
+        } else {
+          results.push(file);
+          if (! --pending) done(null, results);
+        }
+      });
+    });
+  });
+}
+
+;
 
 function verifyUrl(url) {
   https.get(url, function (res) {
@@ -111,30 +148,4 @@ function verifyUrl(url) {
   });
 }
 
-function recursiveFile(dir, done) {
-  let results = [];
-  fs.readdir(dir, function (err, list) {
-    if (err) return done(err);
-    let pending = list.length;
-    if (!pending) return done(null, results);
-    list.forEach(function (file) {
-      file = path.resolve(dir, file);
-      fs.stat(file, function (err, stat) {
-        //Si es directorio, ejecuta una llamada recursiva
-        if (stat && stat.isDirectory()) {
-          results.push(file);
-          recursiveFile(file, function (err, res) {
-            results = results.concat(res);
-            if (! --pending) done(null, results);
-          });
-        } else {
-          results.push(file);
-          if (! --pending) done(null, results);
-        }
-      });
-    });
-  });
-}
-
-;
 module.exports = mdLinks;

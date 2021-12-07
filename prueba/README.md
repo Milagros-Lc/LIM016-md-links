@@ -1,6 +1,6 @@
 # joi
 
-### Visit the [joi.dev](https://joikoko.dev) Developer Portal for tutorials, documentation, and support
+### Visit the [joi.dev](https://joi.dev) Developer Portal for tutorials, documentation, and support
 
 ## Useful resources
 
