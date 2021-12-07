@@ -15,7 +15,8 @@ let position,
     newArray,
     sum = 1;
 let f,
-    arraySum = [];
+    arraySum = [],
+    arrayLinks = [];
 
 function mdLinks(rutaConvert, options) {
   //options == "--validate" ? options = true : options = false;
@@ -67,9 +68,10 @@ function recorrerFiles(data, options) {
             let httpp = linea.split("](");
 
             if (httpp[1] != undefined) {
-              arraySum[sum - 1] = sum;
-              sum = sum + 1;
               newArray = httpp[1].split(")");
+              arraySum[sum - 1] = sum;
+              arrayLinks[sum - 1] = newArray[0];
+              sum = sum + 1;
               link = {
                 "href": '',
                 "text": '',
@@ -89,9 +91,11 @@ function recorrerFiles(data, options) {
                   "file": "./" + rutaMinificada
                 };
                 console.log(link.file, " ", link.href, " ", link.text);
-              }
+              } //console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee", arrayLinks);
+
             }
-          }
+          } // esto es una pruebaaaaa jnsudnjs jsndjsdnsj jnsjdnsjdns
+
         });
       });
     }
@@ -99,6 +103,7 @@ function recorrerFiles(data, options) {
 
   if (options == "--stats") {
     totalLinks(arraySum).then(total => console.log("total: ", total)).catch(error => console.log(error));
+    totalUniques(arrayLinks).then(unique => console.log("unique: ", unique)).catch(error => console.log(error));
   }
 }
 
@@ -107,7 +112,19 @@ function totalLinks(arraySum) {
     setTimeout(() => {
       resolve(arraySum.pop());
       reject('errorrrrrrrrrr');
-    }, 5000);
+    }, 2000);
+  });
+}
+
+function totalUniques(arrayLinks) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const unicos = arrayLinks.filter((valor, indice) => {
+        return arrayLinks.indexOf(valor) === indice;
+      });
+      resolve(unicos.length);
+      reject('errorrrrrrrrrr');
+    }, 2000);
   });
 }
 

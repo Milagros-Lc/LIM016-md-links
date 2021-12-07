@@ -33,6 +33,6 @@ if (arg.length === 2) {
 }
 
 function chooseOption(rutaConvert, option) {
-  console.log("siiiiiiiiiii", option.validate);
+  // console.log("siiiiiiiiiii",option.validate);
   mdLinks(rutaConvert, option.validate).then().catch(error => console.log(error));
 } //---------------------------------------------------------------------------------------------------------------

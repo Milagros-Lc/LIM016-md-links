@@ -4,7 +4,7 @@
 
 ## Useful resources
 
-- [Documentation and API](https://joihbkj.dev/api/)
+- [Documentation and API](https://joi.dev/api/)
 - [Versions status](https://joi.dev/resources/status/#joi)
 - [Changelog](https://joi.dev/resources/changelog/)
 - [Project policies](https://joi.dev/policies/)

@@ -5,10 +5,10 @@ const readline = require('readline');
 var https = require('https');
 let arrayObject = [], link = {};
 let position, newArray, sum = 1;
-let f, arraySum = [];
+let f, arraySum = [],arrayLinks=[];
 function mdLinks(rutaConvert, options) {
 
- //options == "--validate" ? options = true : options = false;
+  //options == "--validate" ? options = true : options = false;
   let ruttaa = rutaConvert;
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -55,10 +55,11 @@ function recorrerFiles(data, options) {
 
             let httpp = linea.split("](");
             if (httpp[1] != undefined) {
+              newArray = httpp[1].split(")");
               arraySum[sum - 1] = sum;
+              arrayLinks[sum - 1] = newArray[0];
               sum = sum + 1;
 
-              newArray = httpp[1].split(")");
               link = {
                 "href": '',
                 "text": '',
@@ -75,8 +76,8 @@ function recorrerFiles(data, options) {
                   .catch(error => console.log(error))
 
               }
-                
-              if(options == "") {
+
+              if (options == "") {
                 link = {
                   "href": newArray[0],
                   "text": httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""),
@@ -85,31 +86,48 @@ function recorrerFiles(data, options) {
                 }
                 console.log(link.file, " ", link.href, " ", link.text);
               }
-             }
-
+              //console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee", arrayLinks);
+            }
+            
           }
+         // esto es una pruebaaaaa jnsudnjs jsndjsdnsj jnsjdnsjdns
 
         });
-
       });
 
     }
 
   }
-  if(options=="--stats"){
+  if (options == "--stats") {
     totalLinks(arraySum)
-    .then(total => console.log("total: ",total))
-    .catch(error => console.log(error))
-    
-  }   
+      .then(total => console.log("total: ", total))
+      .catch(error => console.log(error))
+      totalUniques(arrayLinks)
+      .then(unique => console.log("unique: ", unique))
+      .catch(error => console.log(error))
+
+  }
 }
 function totalLinks(arraySum) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(arraySum.pop());
-      reject('errorrrrrrrrrr');
+         reject('errorrrrrrrrrr');
 
-    }, 5000)
+    }, 2000)
+  })
+}
+function totalUniques(arrayLinks) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const unicos = arrayLinks.filter((valor, indice) => {
+        return arrayLinks.indexOf(valor) === indice;
+      }
+    );
+      resolve(unicos.length);
+         reject('errorrrrrrrrrr');
+
+    }, 2000)
   })
 }
 
