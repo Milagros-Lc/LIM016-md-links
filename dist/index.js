@@ -30,6 +30,5 @@ if (arg.length === 2) {
 }
 
 function chooseOption(rutaConvert, option) {
-  console.log("ruta del index ", rutaConvert);
   mdLinks(rutaConvert, option.validate).then().catch(error => console.log(error));
 } //---------------------------------------------------------------------------------------------------------------

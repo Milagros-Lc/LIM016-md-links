@@ -10,7 +10,6 @@ function mdLinks(rutaConvert, options) {
 
   options == "--validate" ? options = true : options = false;
   let ruttaa = rutaConvert;
-  console.log("es la ruta", ruttaa);
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       recursiveFile(rutaConvert, function (err, data) {
@@ -25,13 +24,6 @@ function mdLinks(rutaConvert, options) {
   })
 }
 function recorrerFiles(data, options) {
-  console.log("dataaaaaaaaaa ", data);
-  let textData = data.toString();
-  let arrayData = textData.split("\\");
-  let dataSlice = arrayData.slice(-2);
-  let rutaMinificada = dataSlice.join("/");
-
-
   if (data.length == "") {
     console.log("Archivo vacio");
   }
@@ -41,9 +33,14 @@ function recorrerFiles(data, options) {
 
     const exten = path.extname(element);
     if (exten == ".md") {
-      console.log(path.basename(element));
+      //console.log(path.basename(element));
       const x = path.basename(element);
       fs.readFile(element.replace(/\r?\n|\r/g, ""), function (err, datos) {
+        let textData = element.toString();
+        let arrayData = textData.split("\\");
+        let dataSlice = arrayData.slice(-2);
+        let rutaMinificada = dataSlice.join("/");
+
         if (err) {
           console.log(err);
         }
@@ -54,7 +51,7 @@ function recorrerFiles(data, options) {
           position = line.search(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g);
           let linea = line;
           if (position != -1) {
-            let httpp = linea.split("(");
+            let httpp = linea.split("](");
             if (httpp[1] != undefined) {
               newArray = httpp[1].split(")");
               link = {
@@ -64,13 +61,22 @@ function recorrerFiles(data, options) {
                 "status": '',
                 "sms": ''
               }
-
-
-              validateFun(link, newArray[0], httpp[0], rutaMinificada)
+              if(options==true){
+                validateFun(link, newArray[0], httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaMinificada)
 
                 .then(linkk => console.log(linkk.file, " ", linkk.href, " ", linkk.status, " ", linkk.sms, " ", linkk.text))
                 .catch(error => console.log(error))
 
+              }else{
+                link = {
+                  "href": newArray[0],
+                  "text": httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""),
+                  "file": "./" + rutaMinificada
+                 
+                }
+                console.log(link.file, " ", link.href, " ", link.text);
+              }
+           
             }
           }
         });
@@ -86,19 +92,31 @@ function validateFun(link, newArray, httpp, rutaMinificada) {
       https.get(newArray, function (res) {
         let result = res.statusCode;
         if (result === 200) {
-          result="200";
+          result = "200";
           link = {
             "href": newArray,
             "text": httpp,
             "file": "./" + rutaMinificada,
             "status": result,
             "sms": 'ok'
-          }     
+          }
           resolve(link);
-          reject('errorrrrrrrrrr');      
+          reject('errorrrrrrrrrr');
         }
-     
-      })
+
+      }).on('error', function (e) {
+        link = {
+          "href": newArray,
+          "text": httpp,
+          "file": "./" + rutaMinificada,
+          "status": '404',
+          "sms": 'fail'
+        }
+
+        resolve(link);
+        reject('errorrrrrrrrrr');
+
+      });
 
     }, 2000)
   })
