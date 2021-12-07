@@ -2,7 +2,7 @@
 "use strict";
 
 let option = {
-  validate: false
+  validate: ''
 };
 
 const mdLinks = require('./md-links');
@@ -12,7 +12,10 @@ let ruta = '';
 
 if (arg.length === 1) {
   ruta = arg[0];
-  chooseOption(ruta, option.validate);
+  let priParam = '';
+  chooseOption(ruta, {
+    validate: priParam
+  });
 }
 
 if (arg.length === 2) {
@@ -25,10 +28,11 @@ if (arg.length === 2) {
   }
 
   chooseOption(arg[0], {
-    validate: arg[1]
+    validate: secondParam
   });
 }
 
 function chooseOption(rutaConvert, option) {
+  console.log("siiiiiiiiiii", option.validate);
   mdLinks(rutaConvert, option.validate).then().catch(error => console.log(error));
 } //---------------------------------------------------------------------------------------------------------------

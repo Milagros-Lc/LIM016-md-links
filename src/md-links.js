@@ -4,11 +4,11 @@ const path = require('path');
 const readline = require('readline');
 var https = require('https');
 let arrayObject = [], link = {};
-let position, newArray;
-
+let position, newArray, sum = 1;
+let f, arraySum = [];
 function mdLinks(rutaConvert, options) {
 
-  options == "--validate" ? options = true : options = false;
+ //options == "--validate" ? options = true : options = false;
   let ruttaa = rutaConvert;
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -33,6 +33,7 @@ function recorrerFiles(data, options) {
 
     const exten = path.extname(element);
     if (exten == ".md") {
+
       //console.log(path.basename(element));
       const x = path.basename(element);
       fs.readFile(element.replace(/\r?\n|\r/g, ""), function (err, datos) {
@@ -51,8 +52,12 @@ function recorrerFiles(data, options) {
           position = line.search(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g);
           let linea = line;
           if (position != -1) {
+
             let httpp = linea.split("](");
             if (httpp[1] != undefined) {
+              arraySum[sum - 1] = sum;
+              sum = sum + 1;
+
               newArray = httpp[1].split(")");
               link = {
                 "href": '',
@@ -61,30 +66,54 @@ function recorrerFiles(data, options) {
                 "status": '',
                 "sms": ''
               }
-              if(options==true){
-                validateFun(link, newArray[0], httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaMinificada)
 
-                .then(linkk => console.log(linkk.file, " ", linkk.href, " ", linkk.status, " ", linkk.sms, " ", linkk.text))
-                .catch(error => console.log(error))
+              if (options == "--validate") {
 
-              }else{
+                funValidate(link, newArray[0], httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaMinificada)
+
+                  .then(linkk => console.log(linkk.file, " ", linkk.href, " ", linkk.status, " ", linkk.sms, " ", linkk.text))
+                  .catch(error => console.log(error))
+
+              }
+                
+              if(options == "") {
                 link = {
                   "href": newArray[0],
                   "text": httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""),
                   "file": "./" + rutaMinificada
-                 
+
                 }
                 console.log(link.file, " ", link.href, " ", link.text);
               }
-           
-            }
+             }
+
           }
+
         });
+
       });
+
     }
+
   }
+  if(options=="--stats"){
+    totalLinks(arraySum)
+    .then(total => console.log("total: ",total))
+    .catch(error => console.log(error))
+    
+  }   
 }
-function validateFun(link, newArray, httpp, rutaMinificada) {
+function totalLinks(arraySum) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(arraySum.pop());
+      reject('errorrrrrrrrrr');
+
+    }, 5000)
+  })
+}
+
+function funValidate(link, newArray, httpp, rutaMinificada) {
 
 
   return new Promise((resolve, reject) => {

@@ -11,10 +11,14 @@ var https = require('https');
 
 let arrayObject = [],
     link = {};
-let position, newArray;
+let position,
+    newArray,
+    sum = 1;
+let f,
+    arraySum = [];
 
 function mdLinks(rutaConvert, options) {
-  options == "--validate" ? options = true : options = false;
+  //options == "--validate" ? options = true : options = false;
   let ruttaa = rutaConvert;
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -63,6 +67,8 @@ function recorrerFiles(data, options) {
             let httpp = linea.split("](");
 
             if (httpp[1] != undefined) {
+              arraySum[sum - 1] = sum;
+              sum = sum + 1;
               newArray = httpp[1].split(")");
               link = {
                 "href": '',
@@ -72,9 +78,11 @@ function recorrerFiles(data, options) {
                 "sms": ''
               };
 
-              if (options == true) {
-                validateFun(link, newArray[0], httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaMinificada).then(linkk => console.log(linkk.file, " ", linkk.href, " ", linkk.status, " ", linkk.sms, " ", linkk.text)).catch(error => console.log(error));
-              } else {
+              if (options == "--validate") {
+                funValidate(link, newArray[0], httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaMinificada).then(linkk => console.log(linkk.file, " ", linkk.href, " ", linkk.status, " ", linkk.sms, " ", linkk.text)).catch(error => console.log(error));
+              }
+
+              if (options == "") {
                 link = {
                   "href": newArray[0],
                   "text": httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""),
@@ -88,9 +96,22 @@ function recorrerFiles(data, options) {
       });
     }
   }
+
+  if (options == "--stats") {
+    totalLinks(arraySum).then(total => console.log("total: ", total)).catch(error => console.log(error));
+  }
 }
 
-function validateFun(link, newArray, httpp, rutaMinificada) {
+function totalLinks(arraySum) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(arraySum.pop());
+      reject('errorrrrrrrrrr');
+    }, 5000);
+  });
+}
+
+function funValidate(link, newArray, httpp, rutaMinificada) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       https.get(newArray, function (res) {
