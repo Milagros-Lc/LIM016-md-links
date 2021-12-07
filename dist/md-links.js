@@ -9,14 +9,18 @@ const readline = require('readline');
 
 var https = require('https');
 
-let suma = [];
+let arrayObject = [],
+    link = {};
+let position, newArray;
 
 function mdLinks(rutaConvert, options) {
-  options == "si" ? options = true : options = false;
+  options == "--validate" ? options = true : options = false;
+  let ruttaa = rutaConvert;
+  console.log("es la ruta", ruttaa);
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      recursiveFile(rutaConvert.replace(/\r?\n|\r/g, ""), function (err, data) {
-        if (data != "") {
+      recursiveFile(rutaConvert, function (err, data) {
+        if (!!data) {
           resolve(recorrerFiles(data, options));
         } else {
           reject('Ruta ingresada no existe');
@@ -27,6 +31,12 @@ function mdLinks(rutaConvert, options) {
 }
 
 function recorrerFiles(data, options) {
+  console.log("dataaaaaaaaaa ", data);
+  let textData = data.toString();
+  let arrayData = textData.split("\\");
+  let dataSlice = arrayData.slice(-2);
+  let rutaMinificada = dataSlice.join("/");
+
   if (data.length == "") {
     console.log("Archivo vacio");
   }
@@ -34,70 +44,48 @@ function recorrerFiles(data, options) {
   data.map(element => mdFile(element));
 
   function mdFile(element) {
-    let arrayObject = [];
-    let position;
-    let newArray;
-    let link = {};
     const exten = path.extname(element);
 
     if (exten == ".md") {
       console.log(path.basename(element));
       const x = path.basename(element);
-      /*    console.log("ruta nueva", element); */
-
       fs.readFile(element.replace(/\r?\n|\r/g, ""), function (err, datos) {
         if (err) {
           console.log(err);
         }
-        /*  console.log(datos.toString()); */
-        //aqui empiezoo
-
 
         const readInterface = readline.createInterface({
           input: fs.createReadStream(element)
-          /*   output: process.stdout, */
-
-          /*  console: false */
-
         });
         readInterface.on('line', function (line) {
-          /*   console.log("se lee linea ",line.replace(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g,"probando)")); */
           position = line.search(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g);
           let linea = line;
-          /*  console.log("aaaaaaaaaa",position); */
 
           if (position != -1) {
-            let httpp = linea.split("](");
+            let httpp = linea.split("(");
 
             if (httpp[1] != undefined) {
-              /*  console.log("est es mi htpp", httpp); */
               newArray = httpp[1].split(")");
-              console.log("Obteniendo  enlace", newArray[0]);
-              suma.push(newArray[0]);
               link = {
                 "href": newArray[0],
                 "text": httpp[0],
-                "file": element,
-                "status": ''
+                "file": "./" + rutaMinificada,
+                "status": '',
+                "sms": ''
               };
               https.get(newArray[0], function (res) {
                 let result = res.statusCode;
 
                 if (result === 200) {
-                  //return console.log("ok");
-                  link.status = 'ok';
-                  arrayObject.push(link);
+                  link.status = result;
+                  link.sms = 'ok';
                 }
-
-                console.log("🚀link", link);
               }).on('error', function (e) {
-                // return console.log("fail");
-                link.status = 'fail';
-                arrayObject.push(link);
-                console.log("🚀link", link);
-              }); // verifyUrl(newArray[0]);
-              // arrayObject.push(link);
-              // console.log("🚀link", link );
+                link.status = '404';
+                link.sms = 'fail';
+              });
+              console.log(" ", link.file, " ", link.href, " ", link.status, " ", link.sms, " ", link.text); //console.log("🚀linkiiiiiiiiiiiiiiiiiiii", link );
+              //arrayObject.push(link);
             }
           }
         });
