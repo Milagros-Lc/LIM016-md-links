@@ -1,27 +1,15 @@
-const mdLinks = require('../md-links.js');
-
+const mdLinks = require('../src/md-links');
 
 describe('mdLinks', () => {
   it('is a function', () => {
     expect(typeof mdLinks).toBe('function');
   });
-  it('Si le envio la ruta "prueba" deberia listar 5 links', () => {
-
-    expect( mdLinks('prueba','si').length).toBe(5);
-   
-    const result = mdLinks('./prueba');    
-
-    console.log(result)
+/*   it('debería retornar un link .md para "./exampleTest"', () => {
+    expect(mdLinks("./exampleTest",'')).resolves.toBe("./exampleTest/README.md   https://joi.dev  Visit the joi.dev");
   });
-/*   it('debería retornar true para "Mage"', () => {
-
-    expect(isFilterRol(rate, 'Mage')[0].tags.includes('Mage')).toBe(true);
-
-  }) */
-
-/*   it('debería retornar 0 para "Help"', () => {
-    expect(isFilterRol(rate, 'Help').length).toBe(0);
-  }); */
+  it('debería retornar " " links .md para "./src"', () => {
+    expect(mdLinks("./src",'')).resolves.toBe(undefined);
+  });  */
 });
 
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+//jdskndjn kakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 "use strict";
 
 const fs = require('fs');
@@ -7,36 +8,44 @@ const path = require('path');
 
 const readline = require('readline');
 
-var https = require('https');
+const https = require('https');
 
-let arrayObject = [],
-    link = {};
+var colors = require('colors');
+
+const {
+  option
+} = require('yargs');
+
+let link = {};
 let position,
     newArray,
-    sum = 1;
-let f,
-    arraySum = [],
+    cont = 1,
+    conta = 1,
+    broken = 0;
+let arraySum = [],
+    arrayBroken = [],
     arrayLinks = [];
 
-function mdLinks(rutaConvert, options) {
-  //options == "--validate" ? options = true : options = false;
-  let ruttaa = rutaConvert;
+function mdLinks(rutaConvert, options, option2) {
+  // console.log("ssssssssss",options,option2);
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       recursiveFile(rutaConvert, function (err, data) {
         if (!!data) {
-          resolve(recorrerFiles(data, options));
+          console.log("dataaaaaa", data);
+          resolve(recorrerFiles(data, options, option2));
+          reject(err);
         } else {
-          reject('Ruta ingresada no existe');
+          console.log("Ruta ingresada no existe");
         }
       });
     }, 2000);
   });
 }
 
-function recorrerFiles(data, options) {
+function recorrerFiles(data, options, option2) {
   if (data.length == "") {
-    console.log("Archivo vacio");
+    console.log("Directorio vacio");
   }
 
   data.map(element => mdFile(element));
@@ -45,65 +54,59 @@ function recorrerFiles(data, options) {
     const exten = path.extname(element);
 
     if (exten == ".md") {
-      //console.log(path.basename(element));
-      const x = path.basename(element);
-      fs.readFile(element.replace(/\r?\n|\r/g, ""), function (err, datos) {
-        let textData = element.toString();
-        let arrayData = textData.split("\\");
-        let dataSlice = arrayData.slice(-2);
-        let rutaMinificada = dataSlice.join("/");
+      // fs.readFile(element, function (err, datos) {
+      let textData = element.toString();
+      let arrayData = textData.split("\\");
+      let dataSlice = arrayData.slice(-2);
+      let rutaRelativa = dataSlice.join("/");
+      /*  if (err) {
+         console.log(err);
+       } */
 
-        if (err) {
-          console.log(err);
-        }
-
-        const readInterface = readline.createInterface({
-          input: fs.createReadStream(element)
-        });
-        readInterface.on('line', function (line) {
-          position = line.search(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g);
-          let linea = line;
-
-          if (position != -1) {
-            let httpp = linea.split("](");
-
-            if (httpp[1] != undefined) {
-              newArray = httpp[1].split(")");
-              arraySum[sum - 1] = sum;
-              arrayLinks[sum - 1] = newArray[0];
-              sum = sum + 1;
-              link = {
-                "href": '',
-                "text": '',
-                "file": '',
-                "status": '',
-                "sms": ''
-              };
-
-              if (options == "--validate") {
-                funValidate(link, newArray[0], httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaMinificada).then(linkk => console.log(linkk.file, " ", linkk.href, " ", linkk.status, " ", linkk.sms, " ", linkk.text)).catch(error => console.log(error));
-              }
-
-              if (options == "") {
-                link = {
-                  "href": newArray[0],
-                  "text": httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""),
-                  "file": "./" + rutaMinificada
-                };
-                console.log(link.file, " ", link.href, " ", link.text);
-              } //console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee", arrayLinks);
-
-            }
-          } // esto es una pruebaaaaa jnsudnjs jsndjsdnsj jnsjdnsjdns
-
-        });
+      const readInterface = readline.createInterface({
+        input: fs.createReadStream(element)
       });
+      readInterface.on('line', function (line) {
+        position = line.search(/(?:http|https):\/\/(?:[^\/\r\n]+)(\/[^\r\n]*)?/g);
+        let linea = line;
+
+        if (position != -1) {
+          let httpp = linea.split("](");
+
+          if (httpp[1] != undefined) {
+            newArray = httpp[1].split(")");
+            arraySum[cont - 1] = cont;
+            arrayLinks[cont - 1] = newArray[0];
+            cont = cont + 1;
+            link = {
+              "href": '',
+              "text": '',
+              "file": '',
+              "status": '',
+              "sms": ''
+            };
+
+            if (options == "") {
+              link = {
+                "href": newArray[0],
+                "text": httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""),
+                "file": "./" + rutaRelativa
+              };
+              console.log(link.file.green, " ", link.href.blue, " ", link.text);
+            }
+
+            if (options == "--validate") {
+              funValidate(newArray[0], httpp[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaRelativa).then(linkk => console.log(linkk.file.green, " ", linkk.href.blue, " ", linkk.status.yellow, " ", linkk.sms.green, " ", linkk.text)).catch(error => console.log(error));
+            }
+          }
+        }
+      }); // });
     }
   }
 
   if (options == "--stats") {
-    totalLinks(arraySum).then(total => console.log("total: ", total)).catch(error => console.log(error));
-    totalUniques(arrayLinks).then(unique => console.log("unique: ", unique)).catch(error => console.log(error));
+    totalLinks(arraySum).then(total => console.log("TOTAL: ".green + "", total)).catch(error => console.log(error));
+    totalUniques(arrayLinks).then(unique => console.log("UNIQUE: ".green + "", unique)).catch(error => console.log(error));
   }
 }
 
@@ -111,10 +114,29 @@ function totalLinks(arraySum) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(arraySum.pop());
-      reject('errorrrrrrrrrr');
+      reject('error');
     }, 2000);
   });
 }
+/* function totalLinksRotos() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      https.get(newArray, function (res) {
+
+      }).on('error', function (e) {
+        arrayBroken[conta - 1] = conta;
+        console.log("aaaaaaaaaaaaaa", arrayBroken)
+        conta = conta + 1;
+
+        resolve(arrayBroken.pop());
+        reject('error');
+
+      });
+
+    }, 5000)
+  })
+} */
+
 
 function totalUniques(arrayLinks) {
   return new Promise((resolve, reject) => {
@@ -123,12 +145,12 @@ function totalUniques(arrayLinks) {
         return arrayLinks.indexOf(valor) === indice;
       });
       resolve(unicos.length);
-      reject('errorrrrrrrrrr');
+      reject('error');
     }, 2000);
   });
 }
 
-function funValidate(link, newArray, httpp, rutaMinificada) {
+function funValidate(newArray, httpp, rutaRelativa) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       https.get(newArray, function (res) {
@@ -139,23 +161,26 @@ function funValidate(link, newArray, httpp, rutaMinificada) {
           link = {
             "href": newArray,
             "text": httpp,
-            "file": "./" + rutaMinificada,
+            "file": "./" + rutaRelativa,
             "status": result,
             "sms": 'ok'
           };
           resolve(link);
-          reject('errorrrrrrrrrr');
+          reject('error');
         }
       }).on('error', function (e) {
+        arrayBroken[conta - 1] = conta;
+        console.log("aaaaaaaaaaaaaaaaaaaa", arrayBroken);
+        conta++;
         link = {
           "href": newArray,
           "text": httpp,
-          "file": "./" + rutaMinificada,
+          "file": "./" + rutaRelativa,
           "status": '404',
           "sms": 'fail'
         };
         resolve(link);
-        reject('errorrrrrrrrrr');
+        reject('error');
       });
     }, 2000);
   });
@@ -186,22 +211,4 @@ function recursiveFile(dir, done) {
 }
 
 ;
-
-function verifyUrl(url) {
-  https.get(url, function (res) {
-    let result = res.statusCode;
-
-    if (result === 200) {
-      return console.log("ok");
-    }
-    /*   console.log("headers: ", res.headers);  
-      res.on('data', function (d) {
-        process.stdout.write(d);
-      }); */
-
-  }).on('error', function (e) {
-    return console.log("fail");
-  });
-}
-
 module.exports = mdLinks;

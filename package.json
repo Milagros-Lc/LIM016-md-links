@@ -11,25 +11,30 @@
     "url": "git+https://github.com/Milagros-Lc/LIM016-md-links"
   },
   "scripts": {
-    "eslint": "eslint --ext .js test/",
-    "pretest": "npm run eslint && npm run ",
+    "eslint": "eslint --ext .js src/ dist/ test/",
+    "pretest.out": "npm run eslint",
     "test": "jest --verbose --coverage",
     "open-coverage-report": "opener ./coverage/lcov-report",
-    "start": "serve ",
+    "start": "serve  ",
     "deploy": "gh-pages -d ",
     "build": "babel src -d dist"
   },
+  
   "dependencies": {
+    "chalk": "^4.0.0",
+    "colors": "^1.4.0",
     "eslint": "^7.12.1",
     "fetch": "^1.1.0",
+    "figlet": "^1.5.2",
     "gh-pages": "^3.1.0",
     "htmlhint": "^0.15.1",
     "jest": "^27.0.1",
+    "jsdom": "^13.2.0",
     "node-fetch": "^3.1.0",
     "opener": "^1.5.1",
     "serve": "^12.0.0",
-    "jsdom": "^13.2.0",
-    "showdown": "^1.9.0"
+    "showdown": "^1.9.0",
+    "yargs": "^17.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
