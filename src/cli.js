@@ -64,8 +64,3 @@ function chooseOption(rutaConvert, option, option2) {
 
 
 
-
-
-
-
-
