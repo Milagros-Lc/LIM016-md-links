@@ -29,6 +29,8 @@ if (arg.length === 2) {
     secondParam = arg[1];
   } else if (arg[1] === '--stats') {
     secondParam = arg[1];
+  }else{
+    secondParam = "x";
   }
   chooseOption(arg[0], { validate: secondParam },{ validate: tercerParam });
 }
@@ -40,6 +42,9 @@ if (arg.length === 3) {
   } else if (arg[1] === '--stats' && arg[2] === '--validate') {
     secondParam = arg[1];
     tercerParam = arg[2];
+  }else{
+    secondParam = "x";
+    tercerParam = "y";
   }
   chooseOption(arg[0], { validate: secondParam }, { validate: tercerParam });
 }
