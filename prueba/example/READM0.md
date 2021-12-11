@@ -3,6 +3,6 @@
 ### Visit the [joi.dev](https://joi.dev) Developer Portal for tutorials, documentation, and support
 
 ## Useful resources
-- [Versions status](https://joiijij.dev/resources/status/#joi)
+- [Versions status](https://joisss.dev/resources/status/#joi)
 - [Changelog](https://joi.dev/resources/changelog/)
 - [Project policies](https://joi.dev/policies/)

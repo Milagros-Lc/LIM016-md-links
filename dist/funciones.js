@@ -18,8 +18,7 @@ let position,
 let arrayTotalLinks = [],
     arrayBroken = [],
     arrayLinks = [];
-let i = 1,
-    pro = "BROKEN: 0";
+let i = 1;
 
 function recursiveFile(dir, done) {
   let results = [];
@@ -115,87 +114,77 @@ function recorrerFiles(data, options, option2) {
 
 function validateLinksRotos(arrayHrefLinks) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      https.get(arrayHrefLinks, function (res) {
-        let result = res.statusCode;
+    https.get(arrayHrefLinks, function (res) {
+      let result = res.statusCode;
 
-        if (result === 200) {
-          conta = conta + 0;
-        }
-      }).on('error', function (e) {
-        arrayBroken[conta - 1] = conta;
-        conta++;
-        let respuesta = arrayBroken.pop();
-        resolve(respuesta);
-        reject('error');
-      });
-    }, 2000);
+      if (result === 200) {
+        conta = conta + 0;
+      }
+    }).on('error', function (e) {
+      arrayBroken[conta - 1] = conta;
+      conta++;
+      let respuesta = arrayBroken.pop();
+      resolve(respuesta);
+      reject('error');
+    });
   });
 }
 
 function totalArchivosMd(arrayMd) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (arrayMd.length == 0) {
-        const smsMd = "Archivos .md no encontrados";
-        resolve(smsMd);
-        reject('error');
-      }
-    }, 2000);
+    if (arrayMd.length == 0) {
+      const smsMd = "Archivos .md no encontrados";
+      resolve(smsMd);
+      reject('error');
+    }
   });
 }
 
 function totalLinks(arrayTotalLinks) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(arrayTotalLinks.pop());
-      reject('error');
-    }, 2000);
+    resolve(arrayTotalLinks.length);
+    reject('error');
   });
 }
 
 function totalUniques(arrayLinks) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const unicos = arrayLinks.filter((valor, indice) => {
-        return arrayLinks.indexOf(valor) === indice;
-      });
-      resolve(unicos.length);
-      reject('error');
-    }, 2000);
+    const unicos = arrayLinks.filter((valor, indice) => {
+      return arrayLinks.indexOf(valor) === indice;
+    });
+    resolve(unicos.length);
+    reject('error');
   });
 }
 
 function validateLinks(arrayHrefLinks, arrayLinkEncontrado, rutaRelativa) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      https.get(arrayHrefLinks, function (res) {
-        let result = res.statusCode;
+    https.get(arrayHrefLinks, function (res) {
+      let result = res.statusCode;
 
-        if (result === 200) {
-          result = "200";
-          link = {
-            "href": arrayHrefLinks,
-            "text": arrayLinkEncontrado,
-            "file": "./" + rutaRelativa,
-            "status": result,
-            "sms": 'ok'
-          };
-          resolve(link);
-          reject('error');
-        }
-      }).on('error', function (e) {
+      if (result === 200) {
+        result = "200";
         link = {
           "href": arrayHrefLinks,
           "text": arrayLinkEncontrado,
           "file": "./" + rutaRelativa,
-          "status": '404',
-          "sms": 'fail'
+          "status": result,
+          "sms": 'ok'
         };
         resolve(link);
         reject('error');
-      });
-    }, 2000);
+      }
+    }).on('error', function (e) {
+      link = {
+        "href": arrayHrefLinks,
+        "text": arrayLinkEncontrado,
+        "file": "./" + rutaRelativa,
+        "status": '404',
+        "sms": 'fail'
+      };
+      resolve(link);
+      reject('error');
+    });
   });
 }
 
@@ -204,11 +193,15 @@ function convertPathRelativa(element) {
   let arrayData = textData.split("\\");
   let dataSlice = arrayData.slice(-2);
   let rutaRelativa = dataSlice.join("/");
-  return rutaRelativa;
+  return rutaRelativa.toString();
 }
 
 ;
 module.exports = {
   recursiveFile,
-  recorrerFiles
+  recorrerFiles,
+  convertPathRelativa,
+  totalLinks,
+  totalUniques,
+  totalArchivosMd
 };

@@ -11,11 +11,13 @@
     "url": "git+https://github.com/Milagros-Lc/LIM016-md-links"
   },
   "scripts": {
+    
+    "api": " node src/funciones.js",
+    "mdlinks": "node src/md-links.js",
     "eslint": "eslint --ext .js src/ dist/ test/",
     "pretest.out": "npm run eslint",
-    "test": "jest --verbose --coverage",
-    "open-coverage-report": "opener ./coverage/lcov-report",
-    "start": "serve  ",
+    "test": "jest --verbose --coverage",   
+    "start": "node src/funciones.js",
     "deploy": "gh-pages -d ",
     "build": "babel src -d dist"
   },
