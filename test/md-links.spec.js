@@ -1,4 +1,4 @@
-const mdLinks = require('../src/md-links');
+/* const mdLinks = require('../src/md-links');
 const funciones = require('../src/funciones');
 
 
@@ -12,12 +12,8 @@ describe('funciones.totalUniques',()=>{
     });
     
     it('returns total and unique of the array', () => {
-     /*  expect(funciones.totalUniques(links)).toEqual(total); */
     });
   
-   /*  it('returns broken of the array', () => {
-      expect(funciones.totalUniques(links)).toEqual(broken);
-    }); */
   });
 
 
@@ -67,4 +63,4 @@ describe('totalLinks', () => {
 
   });
 
-});
+}); */

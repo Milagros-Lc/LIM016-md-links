@@ -1,33 +1,27 @@
 const funciones = require('../src/__mocks__/funciones');
-let fake=[];
-jest.mock('../src/funciones');
+const arrInput = {
+  href: 'https://joi.dev/resources/status/#joi', 
+  text: 'Este es el link', 
+  file: './prueba/README.md'
+};
 
+const arrOutput = {
+  "file": './prueba/README.md', 
+  "href": 'https://joi.dev/resources/status/#joi',  
+  "status": '200', 
+  "statusText": "ok",
+  "text": 'Este es el link'
+};
 
-describe('GIVEN: a BankClient class', () => {
-  beforeAll(() => {
-     fake =   [ "//joi.dev/api/","//joi.dev/resources/status/#joi" ,"//joi.dev/resources/changelog/","//joi.dev/resources/changelog/","joi.dev/policies/"];
-    ;
-    funciones.totalLinks(Promise.resolve(fake));
-
-
+describe('validateLinks', () => {
+  it('Debería ser una función', () => {
+    expect(typeof funciones.validateLinks).toBe('function');
   });
-  test('WHEN: save a deposit THEN it posts the transaction', async () => {
-  
-    const actual = await  funciones.totalLinks(fake);
-    console.log({ actual });
-    
-   
-    
+  it('Debería retornar un objeto links con el estado', (done) => {
+    return funciones.validateLinks(arrInput)
+    .then((res) => {
+      expect(res).toEqual(arrOutput);
+      done()
+    })
   });
-
 });
-
-
- /*  test('WHEN: i ask for all transactions THEN it returns an empty array', async () => {
-    const actual = await  funciones.totalLinks();
-    const expected = [];
-    expect(actual).toEqual(expected);
-
-  }); */
-
-

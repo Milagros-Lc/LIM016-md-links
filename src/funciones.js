@@ -228,7 +228,7 @@ function recursiveFile(dir, done) {
   
   
   module.exports = {recursiveFile,
-    recorrerFiles
+    recorrerFiles,validateLinks
    
 };
   
