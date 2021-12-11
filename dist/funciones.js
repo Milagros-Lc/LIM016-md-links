@@ -18,10 +18,12 @@ let position,
 let arrayTotalLinks = [],
     arrayBroken = [],
     arrayLinks = [];
-let i = 1,
-    pro = "BROKEN: 0";
+let i = 1;
 
 function recursiveFile(dir, done) {
+  /*   function prue(){
+     done;
+    } */
   let results = [];
   fs.readdir(dir, function (err, list) {
     if (err) return done(err);
@@ -148,9 +150,9 @@ function totalArchivosMd(arrayMd) {
 function totalLinks(arrayTotalLinks) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(arrayTotalLinks.pop());
+      resolve(arrayTotalLinks.length);
       reject('error');
-    }, 2000);
+    }, 1000);
   });
 }
 
@@ -168,34 +170,33 @@ function totalUniques(arrayLinks) {
 
 function validateLinks(arrayHrefLinks, arrayLinkEncontrado, rutaRelativa) {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      https.get(arrayHrefLinks, function (res) {
-        let result = res.statusCode;
+    //   setTimeout(() => {
+    https.get(arrayHrefLinks, function (res) {
+      let result = res.statusCode;
 
-        if (result === 200) {
-          result = "200";
-          link = {
-            "href": arrayHrefLinks,
-            "text": arrayLinkEncontrado,
-            "file": "./" + rutaRelativa,
-            "status": result,
-            "sms": 'ok'
-          };
-          resolve(link);
-          reject('error');
-        }
-      }).on('error', function (e) {
+      if (result === 200) {
+        result = "200";
         link = {
           "href": arrayHrefLinks,
           "text": arrayLinkEncontrado,
           "file": "./" + rutaRelativa,
-          "status": '404',
-          "sms": 'fail'
+          "status": result,
+          "sms": 'ok'
         };
         resolve(link);
         reject('error');
-      });
-    }, 2000);
+      }
+    }).on('error', function (e) {
+      link = {
+        "href": arrayHrefLinks,
+        "text": arrayLinkEncontrado,
+        "file": "./" + rutaRelativa,
+        "status": '404',
+        "sms": 'fail'
+      };
+      resolve(link);
+      reject('error');
+    }); //  }, 2000)
   });
 }
 
@@ -210,5 +211,9 @@ function convertPathRelativa(element) {
 ;
 module.exports = {
   recursiveFile,
-  recorrerFiles
+  recorrerFiles,
+  validateLinks,
+  totalLinks,
+  totalUniques,
+  convertPathRelativa
 };

@@ -7,10 +7,14 @@ const colors = require('colors');
 let link = {};
 let position, arrayHrefLinks=[], cont = 1, conta = 1;
 let arrayTotalLinks = [], arrayBroken = [], arrayLinks = [];
-let i = 1,pro="BROKEN: 0";
+let i = 1;
 
-function recursiveFile(dir, done) {
-    let results = [];
+function recursiveFile(dir,done) {
+ /*   function prue(){
+    done;
+   } */
+   
+     let results = [];
     fs.readdir(dir, function (err, list) {
       if (err) return done(err);
       let pending = list.length;
@@ -30,6 +34,7 @@ function recursiveFile(dir, done) {
           }
         });
       });
+     
     });
   };
   function recorrerFiles(data, options, option2) {
@@ -156,10 +161,10 @@ function recursiveFile(dir, done) {
     }
     function totalLinks(arrayTotalLinks) {
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(arrayTotalLinks.pop());
+       setTimeout(() => {
+          resolve(arrayTotalLinks.length);
           reject('error');
-        }, 2000)
+       }, 1000)
       })
     }
     
@@ -180,7 +185,7 @@ function recursiveFile(dir, done) {
     function validateLinks(arrayHrefLinks, arrayLinkEncontrado, rutaRelativa) {
     
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
+     //   setTimeout(() => {
           https.get(arrayHrefLinks, function (res) {
             let result = res.statusCode;
             if (result === 200) {
@@ -194,8 +199,7 @@ function recursiveFile(dir, done) {
               }
               resolve(link);
               reject('error');
-            }
-    
+            }    
           }).on('error', function (e) {
          
             link = {
@@ -212,7 +216,7 @@ function recursiveFile(dir, done) {
     
           });
     
-        }, 2000)
+      //  }, 2000)
       })
     }
     
@@ -221,6 +225,7 @@ function recursiveFile(dir, done) {
       let arrayData = textData.split("\\");
       let dataSlice = arrayData.slice(-2);
       let rutaRelativa = dataSlice.join("/");
+     
       return rutaRelativa;
     };
     
@@ -228,7 +233,7 @@ function recursiveFile(dir, done) {
   
   
   module.exports = {recursiveFile,
-    recorrerFiles,validateLinks
-   
+    recorrerFiles,validateLinks,
+    totalLinks,totalUniques,convertPathRelativa
 };
   
