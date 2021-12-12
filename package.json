@@ -1,22 +1,19 @@
 {
   "name": "md-links",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "main": "dist/md-links.js",
+    "author": "Milagros LC",
   "license": "MIT",
   "bin": {
-    "md-links": "dist/index.js"
+    "md-links": "dist/cli.js"
   },
-  "main": "dist/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Milagros-Lc/LIM016-md-links"
-  },
-  "scripts": {
+
+   "scripts": {
     "api": " node src/funciones.js",
     "mdlinks": "node src/md-links.js",
     "eslint": "eslint --ext .js src/ dist/ test/",
     "pretest.out": "npm run eslint",
-    "test": "jest --verbose --coverage",
-    "start": "node src/funciones.js",
+    "test": "jest --verbose --coverage",   
     "deploy": "gh-pages -d ",
     "build": "babel src -d dist"
   },
@@ -35,13 +32,17 @@
     "serve": "^12.0.0",
     "yargs": "^17.3.0"
   },
-  "devDependencies": {
+   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "27.0.1",
+    "babel-jest": "^24.1.0",
     "jest-fetch-mock": "^3.0.3",
+    "jest": "^24.1.0",
+    "eslint": "^5.10.0",
+    "eslint-plugin-jest": "^22.1.2",
     "regenerator-runtime": "^0.13.1"
   }
+
 }
