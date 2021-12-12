@@ -1,62 +1,66 @@
-import { validateLinks } from '../src/validate.js';
-import { totalLinks, uniqueLinks } from '../src/validate.js';
+import { totalLinks, uniqueLinks,validateLinks } from '../src/validate.js';
 
-const arrInput = [{
-  href: 'https://www.npmjs.com/package/whatwg-fetch#installation', 
-  text: 'Este es el link', 
-  file: 'C:\\Users\\Lab\\projects\\src\\README.md'
+const arrayLink = [{
+  href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Functions',
+  text: 'Funciones Anónimas',
+  file: 'C:\\Users\\MILAGROS\\md-links\\src\\README.md'
 }];
 
-const arrInputLinkBroken = [{
-  href: 'https://www.npunonomjs.com/package/whatwg-fetch#installation', 
-  text: 'Este es el link roto', 
-  file: 'C:\\Users\\Lab\\projects\\src\\README.md'
+const arrayResultLink = [{
+  'file': 'C:\\Users\\MILAGROS\\md-links\\src\\README.md',
+  'href': 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Functions',
+  'status': 200,
+  'statusText': 'OK',
+  'text': 'Funciones Anónimas'
+}];
+
+const arrayBroken = [{
+  href: 'https://developeron.mozilla.org',
+  text: 'no existe',
+  file: 'C:\\Users\\MILAGROS\\md-links\\src\\README.md'
 }]
 
-const arrOutput = [{
-  "file": 'C:\\Users\\Lab\\projects\\src\\README.md', 
-  "href": 'https://www.npmjs.com/package/whatwg-fetch#installation',  
-  "status": 200, 
-  "statusText": "OK",
-  "text": 'Este es el link'
-}];
-
-const arrOutputBroken = [{
-  file: "C:\\Users\\Lab\\projects\\src\\README.md",
-  href: "https://www.npunonomjs.com/package/whatwg-fetch#installation",
+const arrayResultBroken = [{
+  file: 'C:\\Users\\MILAGROS\\md-links\\src\\README.md',
+  href: 'https://developeron.mozilla.org',
   status: 404,
-  statusText: "FAIL",
-  text: "Este es el link roto"
+  statusText: 'FAIL',
+  text: 'no existe'
 }];
 
 describe('validateLinks', () => {
   it('Debería ser una función', () => {
     expect(typeof validateLinks).toBe('function');
   });
-  it('Debería retornar el array de links con el estado', (done) => {
-    return validateLinks(arrInput)
-    .then((res) => {
-      expect(res).toEqual(arrOutput);
-      done()
-    })
+  it('Debería retornar el array de links con el codigo de respuesta http', (done) => {
+    return validateLinks(arrayLink)
+      .then((res) => {
+        expect(res).toEqual(arrayResultLink);
+        done()
+      })
   });
-  it('Debería retornar el array de links con el status y status Text de link que no existe', (done) => {
-    return validateLinks(arrInputLinkBroken)
-    .then((res) => {
-      expect(res).toEqual(arrOutputBroken);
-      done()
-    });
+  it('Debería retornar el array de links con el codigo de respuesta http y un mensaje de FAIL', (done) => {
+    return validateLinks(arrayBroken)
+      .then((res) => {
+        expect(res).toEqual(arrayResultBroken);
+        done()
+      });
   });
 });
 
-
-
-const arrInput2 = [
-  {file: 'C:\\Users\\Lab\\projects\\src\\README.md', href: 'www.abc.com', text: 'Visita este sitio'},
-  {file: 'C:\\Users\\Lab\\projects\\src\\README.md', href: 'www.abc.com', text: 'Visita este sitio'},
-  {file: 'C:\\Users\\Lab\\projects\\src\\README.md', href: 'www.google.com', text: 'Entra a Google'},
-  {file: 'C:\\Users\\Lab\\projects\\src\\README.md', href: 'www.facebook.com', text: 'Entra a Facebook'},
-  {file: 'C:\\Users\\Lab\\projects\\src\\README.md', href: 'www.linkedin.com', text: 'Entra a LinkedIn'}
+const links = [
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.canva.com/', text: 'Visita este sitio' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abc.com/', text: 'Visita este sitio' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.google.com/', text: ' Google' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.facebook.com/', text: ' Facebook' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.twitter.com/', text: ' twuitter' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.canva.com/', text: ' Canvas' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.canva.com/', text: ' Canvas' }
+];
+const linksExample = [
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.mipagina.com/', text: 'Visita este sitio' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abecedario.com/', text: 'Visita este sitio' },
+   { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abecedario.com/', text: ' Canvas' }
 ];
 
 
@@ -65,7 +69,10 @@ describe('totalLinks', () => {
     expect(typeof totalLinks).toBe('function');
   });
   it('Debería retornar un string con el total de links', () => {
-    expect(totalLinks(arrInput2)).toEqual('TOTAL: 5');
+    expect(totalLinks(links)).toEqual('TOTAL: 7');
+  });
+  it('Debería retornar un string con el total de links', () => {
+    expect(totalLinks(linksExample)).toEqual('TOTAL: 3');
   });
 });
 
@@ -74,6 +81,9 @@ describe('uniqueLinks', () => {
     expect(typeof uniqueLinks).toBe('function');
   });
   it('Debería retornar un string con el total de links únicos', () => {
-    expect(uniqueLinks(arrInput2)).toEqual('UNIQUE: 4');
+    expect(uniqueLinks(links)).toEqual('UNIQUE: 5');
+  });
+  it('Debería retornar un string con el total de links únicos', () => {
+    expect(uniqueLinks(linksExample)).toEqual('UNIQUE: 2');
   });
 });

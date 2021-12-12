@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.searchFilesMd = exports.isValidPath = exports.isFilePath = exports.isAbsolutePath = exports.getPathsFromDirectory = exports.getLinks = exports.getContent = exports.convertPathToAbsolute = void 0;
+exports.searchFilesMd = exports.pathAbsoluta = exports.isValidPath = exports.isFilePath = exports.getPathsFromDirectory = exports.getLinks = exports.getContent = exports.convertPathToAbsolute = void 0;
 
 var _fs = _interopRequireDefault(require("fs"));
 
@@ -83,9 +83,9 @@ const isValidPath = route => _fs.default.existsSync(route);
 
 exports.isValidPath = isValidPath;
 
-const isAbsolutePath = route => _path.default.isAbsolute(route);
+const pathAbsoluta = route => _path.default.isAbsolute(route);
 
-exports.isAbsolutePath = isAbsolutePath;
+exports.pathAbsoluta = pathAbsoluta;
 
 const convertPathToAbsolute = route => _path.default.join(cwd, route);
 

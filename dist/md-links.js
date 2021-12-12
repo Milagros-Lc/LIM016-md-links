@@ -29,7 +29,7 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
     let newPath = path;
 
     if ((0, _funciones.isValidPath)(path)) {
-      if (!(0, _funciones.isAbsolutePath)(path)) newPath = (0, _funciones.convertPathToAbsolute)(path);
+      if (!(0, _funciones.pathAbsoluta)(path)) newPath = (0, _funciones.convertPathToAbsolute)(path);
 
       if (options === undefined || !options.validate) {
         return getArrLinks(newPath).then(resArray => {

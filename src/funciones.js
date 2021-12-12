@@ -27,7 +27,7 @@ export const getPathsFromDirectory = route => {
 
 export const searchFilesMd = arrPaths => 
   arrPaths.filter((file) => {
-    return path.extname(file) === ".md";
+    return path.extname(file) === '.md';
   });
 
   //..............................................
@@ -59,7 +59,7 @@ const cwd = process.cwd();
 
 export const isValidPath = route => fs.existsSync(route);
 
-export const isAbsolutePath = route => path.isAbsolute(route);
+export const pathAbsoluta = route => path.isAbsolute(route);
 
 export const convertPathToAbsolute = route => path.join(cwd, route);
 

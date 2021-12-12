@@ -27,7 +27,7 @@ if (arg.length === 1) {
       const text = elem.text;
       const href = elem.href;
       const file = elem.file;
-      console.log(file.blue, (" ", text).green, " ", href);
+      console.log(file.blue, (' ', text).green, ' ', href);
     });
   });
 }
@@ -45,7 +45,7 @@ if (arg.length === 2) {
         const http = elem.status;
         const sms = elem.statusText;
         const text = elem.text;
-        console.log(file.blue, (" ", text).green, (" ", href).cyan, " ", http, (" ", sms).magenta);
+        console.log(file.blue, (' ', text).green, (' ', href).cyan, ' ', http, (' ', sms).magenta);
       });
     });
   } else if (arg[1] === '--stats') {
@@ -59,7 +59,7 @@ if (arg.length === 2) {
 }
 
 if (arg.length === 3) {
-  if (arg[1] === "--validate" && arg[2] === "--stats" || arg[1] === "--stats" && arg[2] === "--validate") {
+  if (arg[1] === '--validate' && arg[2] === '--stats' || arg[1] === '--stats' && arg[2] === '--validate') {
     msn('MD - LINKS').then(mensaje => console.log(mensaje.cyan));
     (0, _mdLinks.mdLinks)(arg[0], {
       validate: true
@@ -74,6 +74,6 @@ if (arg.length === 3) {
       console.log(`BROKEN: ${broken}`);
     });
   } else {
-    console.log("Error comands");
+    console.log('Error comands');
   }
 }

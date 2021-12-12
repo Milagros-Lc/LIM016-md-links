@@ -1,4 +1,4 @@
-import { isValidPath, isAbsolutePath, convertPathToAbsolute } from './funciones';
+import { isValidPath, pathAbsoluta, convertPathToAbsolute } from './funciones';
 import { getPathsFromDirectory, searchFilesMd } from './funciones';
 import { getLinks, getContent } from './funciones';
 import { validateLinks } from './validate.js'
@@ -21,7 +21,7 @@ export const mdLinks = (path, options) => new Promise((resolve, reject) => {
   setTimeout(() => {
     let newPath = path;
     if (isValidPath(path)) {
-      if (!isAbsolutePath(path)) newPath = convertPathToAbsolute(path);
+      if (!pathAbsoluta(path)) newPath = convertPathToAbsolute(path);
       if (options === undefined || !options.validate) {
         return getArrLinks(newPath)
           .then(resArray => {
