@@ -7,6 +7,18 @@ var _validate = require("./validate");
 
 const arg = process.argv.slice(2);
 
+const figlet = require('figlet');
+
+const msn = () => new Promise(resolve => {
+  resolve(console.log(figlet.textSync("mensaje", {
+    font: 'ANSI Shadow',
+    horizontalLayout: 'default',
+    verticalLayout: 'default'
+  }).cyan));
+});
+
+msn().then();
+
 if (arg.length === 1) {
   (0, _mdLinks.mdLinks)(arg[0]).then(ruta => console.log(ruta));
 }

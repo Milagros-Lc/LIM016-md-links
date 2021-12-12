@@ -20,7 +20,10 @@ const getArrLinks = route => new Promise(resolve => {
     });
   });
   resolve(newArr);
-});
+}); //dfdsgdsgfdgdfgfdg
+//hgfhfdhdfhdhdhdf
+//fghghfhdfhfghgfhfgh
+
 
 exports.getArrLinks = getArrLinks;
 

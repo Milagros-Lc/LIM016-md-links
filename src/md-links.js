@@ -15,7 +15,14 @@ export const getArrLinks = (route) => new Promise((resolve) => {
   })
   resolve(newArr);
 });
+//dfdsgdsgfdgdfgfdg
 
+
+
+
+//hgfhfdhdfhdhdhdf
+
+//fghghfhdfhfghgfhfgh
 export const mdLinks = (path, options) => new Promise((resolve, reject) => {
   let newPath = path;
   if(isValidPath(path)) {
