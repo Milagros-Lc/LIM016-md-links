@@ -1,7 +1,7 @@
 const mdLinks = require('../src/md-links');
 const rutaConvert= "./prueba";
-const option1="--stats"
-const option2=""
+const option1="--stats";
+const option2="";
 
 describe('mdLinks', () => {
   it('Debería ser una función', () => {
