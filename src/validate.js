@@ -25,12 +25,12 @@ export const validateLinks = arrLinks => {
       return res;
     })
 };
-export const getTotalLinks = (arrLinks) => {
+export const totalLinks = (arrLinks) => {
   const totalLinks = arrLinks.length;
   return `Total: ${totalLinks}`;
 }
 
-export const getUniqueLinks = (arrLinks) => {
+export const uniqueLinks = (arrLinks) => {
   const uniqueLinks = [...new Set(arrLinks.map(elem => elem.href))].length;
   return `Unique: ${uniqueLinks}`;
 }

@@ -21,29 +21,25 @@ if (arg.length === 2) {
     (0, _mdLinks.mdLinks)(arg[0], {
       validate: true
     }).then(res => {
-      console.log((0, _validate.getTotalLinks)(res));
-      console.log((0, _validate.getUniqueLinks)(res));
+      console.log((0, _validate.totalLinks)(res));
+      console.log((0, _validate.uniqueLinks)(res));
     });
   }
-
-  console.log("error comand");
 }
 
 if (arg.length === 3) {
-  if ((arg[1] === "--validate" || arg[1] === "--stats") && (arg[2] === "--stats" || arg[2] === "--validate")) {
+  if (arg[1] === "--validate" || arg[2] === "--stats" || arg[1] === "--stats" || arg[2] === "--validate") {
     (0, _mdLinks.mdLinks)(arg[0], {
       validate: true
     }).then(res => {
-      console.log((0, _validate.getTotalLinks)(res));
-      console.log((0, _validate.getUniqueLinks)(res));
-      let arrStatus = [];
-      res.map(elem => {
-        arrStatus.push(elem.statusText);
+      console.log((0, _validate.totalLinks)(res));
+      console.log((0, _validate.uniqueLinks)(res));
+      let status = [];
+      res.map(element => {
+        status.push(element.statusText);
       });
-      const statusFail = arrStatus.filter(elem => elem === 'Fail').length;
-      console.log(`Broken: ${statusFail}`);
+      const broken = status.filter(elem => elem === 'Fail').length;
+      console.log(`BROKEN: ${broken}`);
     });
   }
-
-  console.log("error comands");
 }
