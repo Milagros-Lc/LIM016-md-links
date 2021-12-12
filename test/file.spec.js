@@ -4,7 +4,7 @@ import { getContent, getLinks } from '../src/funciones'
 const cwd = process.cwd();
 
 const outputContent = `[Haz clic aquí para más información](https://www.bing.com/translator)`
-const routeFile = path.join(cwd, "test\\directory-test\\README.md");
+const routeFile = path.join(cwd, "test\\example-test\\README.md");
 
 describe('getContent', () => {
   it('Debería ser una función', () => {

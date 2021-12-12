@@ -17,10 +17,6 @@ const getArrLinks = route => new Promise(resolve => {
   arrLinks.forEach(element => {
     element.forEach(elem => {
       newArr.push(elem);
-      /* let text=elem.text;
-      let hre=elem.href;
-      let fil=elem.file;
-      resolve(console.log(fil," ",text," ",hre)); */
     });
   });
   resolve(newArr);

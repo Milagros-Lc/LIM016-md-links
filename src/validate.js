@@ -10,13 +10,13 @@ export const validateLinks = arrLinks => {
           resolve(element);
         } else {
           element.status = res.status;
-          element.statusText = 'Fail';
+          element.statusText = 'FAIL';
           resolve(element);
         }
       })
       .catch(() => {
         element.status = 404;
-        element.statusText = 'Fail';
+        element.statusText = 'FAIL';
         resolve(element);
       });
     }));

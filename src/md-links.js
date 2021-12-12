@@ -11,10 +11,7 @@ export const getArrLinks = (route) => new Promise((resolve) => {
   arrLinks.forEach(element => {
     element.forEach(elem => {
       newArr.push(elem);
-      /* let text=elem.text;
-      let hre=elem.href;
-      let fil=elem.file;
-      resolve(console.log(fil," ",text," ",hre)); */
+   
     })
   })
   resolve(newArr);
@@ -37,7 +34,8 @@ export const mdLinks = (path, options) => new Promise((resolve, reject) => {
         return getArrLinks(newPath)
           .then((res) => {
             validateLinks(res)
-              .then(resp => resolve(resp));
+              .then(resp => resolve(resp ));
+
           })
           .catch(err => reject(err))
       }

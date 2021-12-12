@@ -15,9 +15,6 @@ const msn = msn => new Promise((resolve) => {
   resolve(nuevo);
 });
 
-/* msn('MD - LINKS')
-.then(mensaje=>console.log(mensaje.cyan)) */
-
 if (arg.length === 1) {
 
   msn('MD - LINKS')
@@ -29,16 +26,29 @@ if (arg.length === 1) {
         const text = elem.text;
         const href = elem.href;
         const file = elem.file;
-        (console.log(file, " ", text, " ", href));
+        (console.log(file.blue, (" ", text).green, " ", href));
       })
     })
 
 }
 if (arg.length === 2) {
+  msn('MD - LINKS')
+    .then(mensaje => console.log(mensaje.cyan))
   if (arg[1] === '--validate') {
     mdLinks(arg[0], { validate: true })
-      .then(res => console.log(res))
+      .then(resArray => {
+        resArray.forEach(elem => {
+          const href = elem.href;
+          const file = elem.file;
+          const http = elem.status;
+          const sms = elem.statusText;
+          const text = elem.text;
+          (console.log(file.blue, (" ", text).green, (" ", href).cyan, " ", http, (" ", sms).magenta));
+        })
+      })
+
   } else if (arg[1] === '--stats') {
+    
     mdLinks(arg[0], { validate: true })
       .then((res) => {
         console.log(totalLinks(res));
@@ -47,8 +57,10 @@ if (arg.length === 2) {
   }
 }
 if (arg.length === 3) {
+ 
   if ((arg[1] === "--validate" && arg[2] === "--stats") || (arg[1] === "--stats" && arg[2] === "--validate")) {
-
+    msn('MD - LINKS')
+    .then(mensaje => console.log(mensaje.cyan))
     mdLinks(arg[0], { validate: true })
       .then((res) => {
         console.log(totalLinks(res));
@@ -57,7 +69,7 @@ if (arg.length === 3) {
         res.map((element) => {
           status.push(element.statusText)
         });
-        const broken = (status.filter(elem => elem === 'Fail')).length;
+        const broken = (status.filter(elem => elem === 'FAIL')).length;
         console.log(`BROKEN: ${broken}`);
       })
   }

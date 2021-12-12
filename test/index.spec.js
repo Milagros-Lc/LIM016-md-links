@@ -4,20 +4,20 @@ import path from 'path';
 
 const cwd = process.cwd();
 
-const inputPath = path.join(cwd, "test\\directory-test");
+const inputPath = path.join(cwd, "test\\example-test");
 
 const outPutArrLinks = [
-  {"file": path.join(cwd, "test\\directory-test\\directory1\\directory2\\help.md"), "href": "https://www.google.com/?hl=es_419", "text": "Google"}, 
-  {"file": path.join(cwd, "test\\directory-test\\hola.md"), "href": "https://www.facebook.com/", "text": "Hola, sígueme en Facebook"},
-  {"file": path.join(cwd, "test\\directory-test\\hola.md"), "href": "https://www.dropbox.com/esta-pagina-no-existe", "text": "Inicia sesión en Dropbox"},
-  {"file": path.join(cwd, "test\\directory-test\\README.md"), "href": "https://www.bing.com/translator", "text": "Haz clic aquí para más información"}
+  {"file": path.join(cwd, "test\\example-test\\prueba\\example\\help.md"), "href": "https://www.google.com/?hl=es_419", "text": "Google"}, 
+  {"file": path.join(cwd, "test\\example-test\\hola.md"), "href": "https://www.facebook.com/", "text": "Hola, sígueme en Facebook"},
+  {"file": path.join(cwd, "test\\example-test\\hola.md"), "href": "https://www.dropbox.com/esta-pagina-no-existe", "text": "Inicia sesión en Dropbox"},
+  {"file": path.join(cwd, "test\\example-test\\README.md"), "href": "https://www.bing.com/translator", "text": "Haz clic aquí para más información"}
 ];
 
 const outPutValidate = [
-  {"file": path.join(cwd, "test\\directory-test\\directory1\\directory2\\help.md"), "href": "https://www.google.com/?hl=es_419", "status": 200, "statusText": "OK", "text": "Google"}, 
-  {"file": path.join(cwd, "test\\directory-test\\hola.md"), "href": "https://www.facebook.com/", "status": 200, "statusText": "OK", "text": "Hola, sígueme en Facebook"}, 
-  {"file": path.join(cwd, "test\\directory-test\\hola.md"), "href": "https://www.dropbox.com/esta-pagina-no-existe", "status": 404, "statusText": "Fail", "text": "Inicia sesión en Dropbox"}, 
-  {"file": path.join(cwd, "test\\directory-test\\README.md"), "href": "https://www.bing.com/translator", "status": 200, "statusText": "OK", "text": "Haz clic aquí para más información"}
+  {"file": path.join(cwd, "test\\example-test\\prueba\\example\\help.md"), "href": "https://www.google.com/?hl=es_419", "status": 200, "statusText": "OK", "text": "Google"}, 
+  {"file": path.join(cwd, "test\\example-test\\hola.md"), "href": "https://www.facebook.com/", "status": 200, "statusText": "OK", "text": "Hola, sígueme en Facebook"}, 
+  {"file": path.join(cwd, "test\\example-test\\hola.md"), "href": "https://www.dropbox.com/esta-pagina-no-existe", "status": 404, "statusText": "FAIL", "text": "Inicia sesión en Dropbox"}, 
+  {"file": path.join(cwd, "test\\example-test\\README.md"), "href": "https://www.bing.com/translator", "status": 200, "statusText": "OK", "text": "Haz clic aquí para más información"}
 ];
 
 describe('getArrLinks', () => {

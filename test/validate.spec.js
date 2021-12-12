@@ -25,7 +25,7 @@ const arrOutputBroken = [{
   file: "C:\\Users\\Lab\\projects\\src\\README.md",
   href: "https://www.npunonomjs.com/package/whatwg-fetch#installation",
   status: 404,
-  statusText: "Fail",
+  statusText: "FAIL",
   text: "Este es el link roto"
 }];
 
