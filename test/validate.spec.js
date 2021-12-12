@@ -1,5 +1,5 @@
 import { validateLinks } from '../src/validate.js';
-import { getTotalLinks, getUniqueLinks } from '../src/validate.js';
+import { totalLinks, uniqueLinks } from '../src/validate.js';
 
 const arrInput = [{
   href: 'https://www.npmjs.com/package/whatwg-fetch#installation', 
@@ -24,11 +24,11 @@ const arrOutput = [{
 const arrOutputBroken = [{
   file: "C:\\Users\\Lab\\projects\\src\\README.md",
   href: "https://www.npunonomjs.com/package/whatwg-fetch#installation",
-  status: "",
-  statusText: "Este link no existe",
+  status: 404,
+  statusText: "Fail",
   text: "Este es el link roto"
 }];
-/* 
+
 describe('validateLinks', () => {
   it('Debería ser una función', () => {
     expect(typeof validateLinks).toBe('function');
@@ -48,7 +48,7 @@ describe('validateLinks', () => {
     });
   });
 });
- */
+
 
 
 const arrInput2 = [
@@ -60,20 +60,20 @@ const arrInput2 = [
 ];
 
 
-describe('getTotalLinks', () => {
+describe('totalLinks', () => {
   it('Debería ser una función', () => {
-    expect(typeof getTotalLinks).toBe('function');
+    expect(typeof totalLinks).toBe('function');
   });
   it('Debería retornar un string con el total de links', () => {
-    expect(getTotalLinks(arrInput2)).toEqual('Total: 5');
+    expect(totalLinks(arrInput2)).toEqual('TOTAL: 5');
   });
 });
 
-describe('getUniqueLinks', () => {
+describe('uniqueLinks', () => {
   it('Debería ser una función', () => {
-    expect(typeof getUniqueLinks).toBe('function');
+    expect(typeof uniqueLinks).toBe('function');
   });
   it('Debería retornar un string con el total de links únicos', () => {
-    expect(getUniqueLinks(arrInput2)).toEqual('Unique: 4');
+    expect(uniqueLinks(arrInput2)).toEqual('UNIQUE: 4');
   });
 });

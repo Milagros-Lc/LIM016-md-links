@@ -7,20 +7,32 @@ var _validate = require("./validate");
 
 const arg = process.argv.slice(2);
 
+const colors = require('colors');
+
 const figlet = require('figlet');
 
-const msn = () => new Promise(resolve => {
-  resolve(console.log(figlet.textSync("mensaje", {
+const msn = msn => new Promise(resolve => {
+  let nuevo = figlet.textSync(msn, {
     font: 'ANSI Shadow',
     horizontalLayout: 'default',
     verticalLayout: 'default'
-  }).cyan));
+  });
+  resolve(nuevo);
 });
+/* msn('MD - LINKS')
+.then(mensaje=>console.log(mensaje.cyan)) */
 
-msn().then();
 
 if (arg.length === 1) {
-  (0, _mdLinks.mdLinks)(arg[0]).then(ruta => console.log(ruta));
+  msn('MD - LINKS').then(mensaje => console.log(mensaje.cyan));
+  (0, _mdLinks.mdLinks)(arg[0]).then(resArray => {
+    resArray.forEach(elem => {
+      const text = elem.text;
+      const href = elem.href;
+      const file = elem.file;
+      console.log(file, " ", text, " ", href);
+    });
+  });
 }
 
 if (arg.length === 2) {

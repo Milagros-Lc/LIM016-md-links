@@ -3,21 +3,35 @@
 import { mdLinks } from './md-links'
 import { totalLinks, uniqueLinks } from './validate'
 const arg = process.argv.slice(2)
-
+const colors = require('colors');
 const figlet = require('figlet');
-const msn = () => new Promise((resolve) => {  
-  resolve( console.log((figlet.textSync("mensaje", {
+
+const msn = msn => new Promise((resolve) => {
+  let nuevo = (figlet.textSync(msn, {
     font: 'ANSI Shadow',
     horizontalLayout: 'default',
     verticalLayout: 'default'
-  })).cyan));
+  }));
+  resolve(nuevo);
 });
-msn()
-.then();
+
+/* msn('MD - LINKS')
+.then(mensaje=>console.log(mensaje.cyan)) */
 
 if (arg.length === 1) {
+
+  msn('MD - LINKS')
+    .then(mensaje => console.log(mensaje.cyan))
+
   mdLinks(arg[0])
-    .then(ruta => console.log(ruta))
+    .then(resArray => {
+      resArray.forEach(elem => {
+        const text = elem.text;
+        const href = elem.href;
+        const file = elem.file;
+        (console.log(file, " ", text, " ", href));
+      })
+    })
 
 }
 if (arg.length === 2) {

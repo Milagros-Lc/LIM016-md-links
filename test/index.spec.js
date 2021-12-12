@@ -31,20 +31,7 @@ describe('getArrLinks', () => {
     })
   });
 });
-/* 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve(inputPath),
-  })
-);
-beforeEach(() => {
-  fetch.mockClear();
-});
 
-it("debería de retornar '9' para data.length", async () => {
-  rate = await dataChampions();
-  expect(rate).toEqual(outPutArrLinks);
-}); */
 describe('mdLinks', () => {
   it('Debería ser una función', () => {
     expect(typeof mdLinks).toBe('function');

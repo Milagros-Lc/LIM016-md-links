@@ -22,8 +22,8 @@ const validateLinks = arrLinks => {
         resolve(element);
       }
     }).catch(() => {
-      element.status = '';
-      element.statusText = 'Este link no existe';
+      element.status = 404;
+      element.statusText = 'Fail';
       resolve(element);
     });
   }));
@@ -36,14 +36,14 @@ exports.validateLinks = validateLinks;
 
 const totalLinks = arrLinks => {
   const totalLinks = arrLinks.length;
-  return `Total: ${totalLinks}`;
+  return `TOTAL: ${totalLinks}`;
 };
 
 exports.totalLinks = totalLinks;
 
 const uniqueLinks = arrLinks => {
   const uniqueLinks = [...new Set(arrLinks.map(elem => elem.href))].length;
-  return `Unique: ${uniqueLinks}`;
+  return `UNIQUE: ${uniqueLinks}`;
 };
 
 exports.uniqueLinks = uniqueLinks;

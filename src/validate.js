@@ -15,8 +15,8 @@ export const validateLinks = arrLinks => {
         }
       })
       .catch(() => {
-        element.status = '';
-        element.statusText = 'Este link no existe';
+        element.status = 404;
+        element.statusText = 'Fail';
         resolve(element);
       });
     }));
@@ -27,10 +27,10 @@ export const validateLinks = arrLinks => {
 };
 export const totalLinks = (arrLinks) => {
   const totalLinks = arrLinks.length;
-  return `Total: ${totalLinks}`;
+  return `TOTAL: ${totalLinks}`;
 }
 
 export const uniqueLinks = (arrLinks) => {
   const uniqueLinks = [...new Set(arrLinks.map(elem => elem.href))].length;
-  return `Unique: ${uniqueLinks}`;
+  return `UNIQUE: ${uniqueLinks}`;
 }

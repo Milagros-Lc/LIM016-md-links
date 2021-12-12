@@ -17,34 +17,39 @@ const getArrLinks = route => new Promise(resolve => {
   arrLinks.forEach(element => {
     element.forEach(elem => {
       newArr.push(elem);
+      /* let text=elem.text;
+      let hre=elem.href;
+      let fil=elem.file;
+      resolve(console.log(fil," ",text," ",hre)); */
     });
   });
   resolve(newArr);
-}); //dfdsgdsgfdgdfgfdg
-//hgfhfdhdfhdhdhdf
-//fghghfhdfhfghgfhfgh
-
+});
 
 exports.getArrLinks = getArrLinks;
 
 const mdLinks = (path, options) => new Promise((resolve, reject) => {
-  let newPath = path;
+  setTimeout(() => {
+    let newPath = path;
 
-  if ((0, _funciones.isValidPath)(path)) {
-    if (!(0, _funciones.isAbsolutePath)(path)) newPath = (0, _funciones.convertPathToAbsolute)(path);
+    if ((0, _funciones.isValidPath)(path)) {
+      if (!(0, _funciones.isAbsolutePath)(path)) newPath = (0, _funciones.convertPathToAbsolute)(path);
 
-    if (options === undefined || !options.validate) {
-      return getArrLinks(newPath).then(response => resolve(response)).catch(err => reject(err));
+      if (options === undefined || !options.validate) {
+        return getArrLinks(newPath).then(resArray => {
+          resolve(resArray);
+        }).catch(err => reject(err));
+      }
+
+      if (options.validate === true) {
+        return getArrLinks(newPath).then(res => {
+          (0, _validate.validateLinks)(res).then(resp => resolve(resp));
+        }).catch(err => reject(err));
+      }
+    } else {
+      console.log('La ruta ingresada no existe');
     }
-
-    if (options.validate === true) {
-      return getArrLinks(newPath).then(res => {
-        (0, _validate.validateLinks)(res).then(resp => resolve(resp));
-      }).catch(err => reject(err));
-    }
-  } else {
-    console.log('La ruta ingresada no existe');
-  }
+  }, 1000);
 });
 
 exports.mdLinks = mdLinks;
