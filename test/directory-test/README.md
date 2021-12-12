@@ -1,0 +1,1 @@
+[Haz clic aquí para más información](https://www.bing.com/translator)

@@ -1,73 +1,49 @@
 #!/usr/bin/env node
 "use strict";
 
-let option = {
-  validate: ''
-};
+var _mdLinks = require("./md-links");
 
-const mdLinks = require('./md-links');
-
-const figlet = require('figlet');
+var _validate = require("./validate");
 
 const arg = process.argv.slice(2);
 
-const msn = msn => {
-  console.log(figlet.textSync(msn, {
-    font: 'ANSI Shadow',
-    horizontalLayout: 'default',
-    verticalLayout: 'default'
-  }).cyan);
-};
-
-msn('MD - LINKS');
-let secondParam = '';
-let tercerParam = '';
-let ruta = '';
-
 if (arg.length === 1) {
-  ruta = arg[0];
-  chooseOption(ruta, {
-    validate: secondParam
-  }, {
-    validate: tercerParam
-  });
+  //console.log(arg[0]);
+  (0, _mdLinks.mdLinks)(arg[0]).then(ruta => console.log(ruta));
 }
 
 if (arg.length === 2) {
   if (arg[1] === '--validate') {
-    secondParam = arg[1];
+    (0, _mdLinks.mdLinks)(arg[0], {
+      validate: true
+    }).then(res => console.log(res));
   } else if (arg[1] === '--stats') {
-    secondParam = arg[1];
-  } else {
-    secondParam = "x";
+    (0, _mdLinks.mdLinks)(arg[0], {
+      validate: true
+    }).then(res => {
+      console.log((0, _validate.getTotalLinks)(res));
+      console.log((0, _validate.getUniqueLinks)(res));
+    });
   }
 
-  chooseOption(arg[0], {
-    validate: secondParam
-  }, {
-    validate: tercerParam
-  });
+  console.log("error comand");
 }
 
 if (arg.length === 3) {
-  if (arg[1] === '--validate' && arg[2] === '--stats') {
-    secondParam = arg[1];
-    tercerParam = arg[2];
-  } else if (arg[1] === '--stats' && arg[2] === '--validate') {
-    secondParam = arg[1];
-    tercerParam = arg[2];
-  } else {
-    secondParam = "x";
-    tercerParam = "y";
+  if ((arg[1] === "--validate" || arg[1] === "--stats") && (arg[2] === "--stats" || arg[2] === "--validate")) {
+    (0, _mdLinks.mdLinks)(arg[0], {
+      validate: true
+    }).then(res => {
+      console.log((0, _validate.getTotalLinks)(res));
+      console.log((0, _validate.getUniqueLinks)(res));
+      let arrStatus = [];
+      res.map(elem => {
+        arrStatus.push(elem.statusText);
+      });
+      const statusFail = arrStatus.filter(elem => elem === 'Fail').length;
+      console.log(`Broken: ${statusFail}`);
+    });
   }
 
-  chooseOption(arg[0], {
-    validate: secondParam
-  }, {
-    validate: tercerParam
-  });
+  console.log("error comands");
 }
-
-function chooseOption(rutaConvert, option, option2) {
-  mdLinks(rutaConvert, option.validate, option2.validate).then().catch(error => console.log(error));
-} //---------------------------------------------------------------------------------------------------------------

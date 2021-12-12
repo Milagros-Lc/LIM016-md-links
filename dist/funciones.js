@@ -1,219 +1,92 @@
 "use strict";
 
-const fs = require('fs');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.searchFilesMd = exports.isValidPath = exports.isFilePath = exports.isAbsolutePath = exports.getPathsFromDirectory = exports.getLinks = exports.getContent = exports.convertPathToAbsolute = void 0;
 
-const path = require('path');
+var _fs = _interopRequireDefault(require("fs"));
 
-const readline = require('readline');
+var _path = _interopRequireDefault(require("path"));
 
-const https = require('https');
+var _jsdom = _interopRequireDefault(require("jsdom"));
 
-const colors = require('colors');
+var _showdown = _interopRequireDefault(require("showdown"));
 
-let link = {};
-let position,
-    arrayHrefLinks = [],
-    cont = 1,
-    conta = 1;
-let arrayTotalLinks = [],
-    arrayBroken = [],
-    arrayLinks = [];
-let i = 1;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function recursiveFile(dir, done) {
-  /*   function prue(){
-     done;
-    } */
-  let results = [];
-  fs.readdir(dir, function (err, list) {
-    if (err) return done(err);
-    let pending = list.length;
-    if (!pending) return done(null, results);
-    list.forEach(function (file) {
-      file = path.resolve(dir, file);
-      fs.stat(file, function (err, stat) {
-        if (stat && stat.isDirectory()) {
-          results.push(file);
-          recursiveFile(file, function (err, res) {
-            results = results.concat(res);
-            if (! --pending) done(null, results);
-          });
-        } else {
-          results.push(file);
-          if (! --pending) done(null, results);
-        }
-      });
+const {
+  JSDOM
+} = _jsdom.default;
+
+const isFilePath = route => {
+  const stats = _fs.default.lstatSync(route);
+
+  const answerStat = stats.isFile();
+  return answerStat;
+};
+
+exports.isFilePath = isFilePath;
+
+const getPathsFromDirectory = route => {
+  let arrPathFiles = [];
+
+  if (isFilePath(route)) {
+    arrPathFiles.push(route);
+  } else {
+    const readDirectory = _fs.default.readdirSync(route);
+
+    readDirectory.forEach(file => {
+      const pathFile = _path.default.join(route, file);
+
+      arrPathFiles = arrPathFiles.concat(getPathsFromDirectory(pathFile));
+    });
+  }
+
+  return arrPathFiles;
+};
+
+exports.getPathsFromDirectory = getPathsFromDirectory;
+
+const searchFilesMd = arrPaths => arrPaths.filter(file => {
+  return _path.default.extname(file) === ".md";
+}); //..............................................
+
+
+exports.searchFilesMd = searchFilesMd;
+const converter = new _showdown.default.Converter();
+
+const getContent = routeFile => _fs.default.readFileSync(routeFile).toString();
+
+exports.getContent = getContent;
+
+const getLinks = (contentFile, routeFile) => {
+  const contentHTML = converter.makeHtml(contentFile);
+  const dom = new JSDOM(contentHTML);
+  const arrayOfTagsA = dom.window.document.querySelectorAll('a');
+  let arrNew = [];
+  arrayOfTagsA.forEach(elem => {
+    arrNew.push({
+      href: elem.href,
+      text: elem.textContent.slice(0, 50),
+      file: routeFile
     });
   });
-}
+  return arrNew;
+}; //-----------------------------------------------------
 
-;
 
-function recorrerFiles(data, options, option2) {
-  let arrayMd = [];
+exports.getLinks = getLinks;
+const cwd = process.cwd();
 
-  if (options == "x" || options == "y") {
-    console.log("error");
-  }
+const isValidPath = route => _fs.default.existsSync(route);
 
-  if (data.length == "") {
-    console.log("Directorio vacio");
-  }
+exports.isValidPath = isValidPath;
 
-  data.map(element => mdFile(element));
+const isAbsolutePath = route => _path.default.isAbsolute(route);
 
-  function mdFile(element) {
-    const exten = path.extname(element);
+exports.isAbsolutePath = isAbsolutePath;
 
-    if (exten == ".md") {
-      arrayMd[i - 1] = i;
-      i++;
-      let rutaRelativa = convertPathRelativa(element);
-      const readInterface = readline.createInterface({
-        input: fs.createReadStream(element)
-      });
-      readInterface.on('line', function (line) {
-        position = line.search(/(?:http|https):\/?/g);
-        let linea = line;
+const convertPathToAbsolute = route => _path.default.join(cwd, route);
 
-        if (position != -1) {
-          let arrayLinkEncontrado = linea.split("](");
-
-          if (arrayLinkEncontrado[1] != undefined) {
-            arrayHrefLinks = arrayLinkEncontrado[1].split(")");
-            arrayLinks[cont - 1] = arrayHrefLinks[0];
-            arrayTotalLinks[cont - 1] = cont;
-            cont = cont + 1;
-
-            if (options == "") {
-              link = {
-                "href": arrayHrefLinks[0],
-                "text": arrayLinkEncontrado[0].replace(/([|#/().\-[;_])/g, ""),
-                "file": "./" + rutaRelativa
-              };
-              console.log(link.file.green, " ", link.href.blue, " ", link.text);
-            }
-
-            if (options == "--validate" && option2 == "") {
-              validateLinks(arrayHrefLinks[0], arrayLinkEncontrado[0].replace(/([|°<>!"#$%&/()=?:.*@¡\-'[;{}_])/g, ""), rutaRelativa).then(linkk => console.log(linkk.file.green, " ", linkk.href.blue, " ", linkk.status.yellow, " ", linkk.sms.green, " ", linkk.text)).catch(error => console.log(error));
-            }
-
-            if (option2 == "--validate" || option2 == "--stats") {
-              validateLinksRotos(arrayHrefLinks[0]).then(linksRotos => console.log("BROKEN: ".green, linksRotos)).catch(error => console.log(error));
-            }
-          }
-        }
-      });
-    }
-  }
-
-  if (options == "--stats" || option2 == "--stats") {
-    totalLinks(arrayTotalLinks).then(total => console.log("TOTAL: ".green + "", total)).catch(error => console.log(error));
-    totalUniques(arrayLinks).then(unique => console.log("UNIQUE: ".green + "", unique)).catch(error => console.log(error));
-  }
-
-  totalArchivosMd(arrayMd).then(smsArchivos => console.log(smsArchivos)).catch(error => console.log(error));
-}
-
-function validateLinksRotos(arrayHrefLinks) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      https.get(arrayHrefLinks, function (res) {
-        let result = res.statusCode;
-
-        if (result === 200) {
-          conta = conta + 0;
-        }
-      }).on('error', function (e) {
-        arrayBroken[conta - 1] = conta;
-        conta++;
-        let respuesta = arrayBroken.pop();
-        resolve(respuesta);
-        reject('error');
-      });
-    }, 2000);
-  });
-}
-
-function totalArchivosMd(arrayMd) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (arrayMd.length == 0) {
-        const smsMd = "Archivos .md no encontrados";
-        resolve(smsMd);
-        reject('error');
-      }
-    }, 2000);
-  });
-}
-
-function totalLinks(arrayTotalLinks) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(arrayTotalLinks.length);
-      reject('error');
-    }, 1000);
-  });
-}
-
-function totalUniques(arrayLinks) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const unicos = arrayLinks.filter((valor, indice) => {
-        return arrayLinks.indexOf(valor) === indice;
-      });
-      resolve(unicos.length);
-      reject('error');
-    }, 2000);
-  });
-}
-
-function validateLinks(arrayHrefLinks, arrayLinkEncontrado, rutaRelativa) {
-  return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    https.get(arrayHrefLinks, function (res) {
-      let result = res.statusCode;
-
-      if (result === 200) {
-        result = "200";
-        link = {
-          "href": arrayHrefLinks,
-          "text": arrayLinkEncontrado,
-          "file": "./" + rutaRelativa,
-          "status": result,
-          "sms": 'ok'
-        };
-        resolve(link);
-        reject('error');
-      }
-    }).on('error', function (e) {
-      link = {
-        "href": arrayHrefLinks,
-        "text": arrayLinkEncontrado,
-        "file": "./" + rutaRelativa,
-        "status": '404',
-        "sms": 'fail'
-      };
-      resolve(link);
-      reject('error');
-    }); //  }, 2000)
-  });
-}
-
-function convertPathRelativa(element) {
-  let textData = element.toString();
-  let arrayData = textData.split("\\");
-  let dataSlice = arrayData.slice(-2);
-  let rutaRelativa = dataSlice.join("/");
-  return rutaRelativa;
-}
-
-;
-module.exports = {
-  recursiveFile,
-  recorrerFiles,
-  validateLinks,
-  totalLinks,
-  totalUniques,
-  convertPathRelativa
-};
+exports.convertPathToAbsolute = convertPathToAbsolute;
