@@ -5,6 +5,6 @@
 ## Useful resources
 
 - [Documentation and API](https://joi.dev/api/)
-- [Versions status](https://joi.dev/resources/status/#joi)
-- [Changelog](https://joi.dev/resources/changelog/)
+- [Versions status](https://joikjhiuhu.dev/resources/status/#joi)
+- [Changelog](https://joi.deviojoijni/resources/changelog/)
 - [Project policies](https://joinkjnkj.dev/policies/)
