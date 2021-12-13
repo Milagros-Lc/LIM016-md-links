@@ -36,14 +36,14 @@ algunas estadísticas.
 
 ## 2. Resumen del proyecto
 
-[Node.js](https://nodejs.org/es/) es un entorno de ejecución para JavaScript
-construido con el [motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).
-Esto nos va a permitir ejecutar JavaScript en el entorno del sistema operativo,
-ya sea tu máquina o un servidor, lo cual nos abre las puertas para poder
-interactuar con el sistema en sí, archivos, redes, ...
+Node.js es un entorno de ejecución para JavaScript construido con el motor de JavaScript V8 de Chrome. Esto nos va a permitir ejecutar JavaScript en el entorno del sistema operativo, ya sea tu máquina o un servidor, lo cual nos abre las puertas para poder interactuar con el sistema en sí, archivos, redes, ...
+
+En este proyecto nos alejamos un poco del navegador para construir un programa que se ejecute usando Node.js, donde aprenderemos sobre cómo interactuar con el sistema archivos, con el entorno (proceso, env, stdin/stdout/stderr), ...
+
+En este proyecto crearemos una herramienta de línea de comando (CLI) así como nuestra propia librería (o biblioteca - library) en JavaScript.
 
 
-## 4. Consideraciones generales
+## 3. Consideraciones generales
 
 * Este proyecto se debe "resolver" de manera individual.
 
@@ -198,6 +198,38 @@ Unique: 3
 Broken: 1
 ```
 
+## 4. Instalación
+  
+Para instalar la librería solo deberás de abrir tu terminal desde la ruta de creación y escribirás el siguiente comando: npm i https://github.com/Milagros-Lc/LIM016-md-links .
+  
+## 5. Modo de Uso
+  
+Linea de Comandos
+  
+** md-links <path-to-file> 
+
+Haciendo referencia a la librería y al directorio a buscar, así como muestra la siguiente imagen:  
+    
+  ![md-links ruta](https://user-images.githubusercontent.com/83854147/145739928-6904ff8d-e7ea-4932-a628-6c813a3b69cc.png)
+  
+ ** md-links <path-to-file> [--validate]  
+  
+Haciendo referencia a la librería, al directorio a buscar y la opcion --validate, así como muestra la siguiente imagen:  
+  
+  ![md-links ruta --validate](https://user-images.githubusercontent.com/83854147/145739937-4e8f8fff-7432-40c5-ae07-dbad6c8565c9.png)
+
+  ** md-links <path-to-file> [--stats]
+  
+  Haciendo referencia a la librería, al directorio a buscar y la opcion --stats, así como muestra la siguiente imagen:
+  
+  ![md-links ruta --stats](https://user-images.githubusercontent.com/83854147/145740022-5db52531-1f31-4676-9082-48188f363bfa.png)
+  
+  ** md-links <path-to-file> [--validate --stats]
+ 
+  Haciendo referencia a la librería, al directorio a buscar y la opcion --stats --validate ó --validate --stats, así como muestra la siguiente imagen:
+
+![md-links ruta --validate --stats](https://user-images.githubusercontent.com/83854147/145739972-935a8225-7976-4e60-8bda-f408833be9ce.png)  
+  
 ## 6. Entregables
 
 Módulo instalable via `npm install <github-user>/md-links`. Este módulo debe
