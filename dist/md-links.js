@@ -9,10 +9,10 @@ var _funciones = require("./funciones");
 
 var _validate = require("./validate.js");
 
-const getArrLinks = route => new Promise(resolve => {
-  const arrPathFiles = (0, _funciones.getPathsFromDirectory)(route);
+const getArrLinks = ruta => new Promise(resolve => {
+  const arrPathFiles = (0, _funciones.lisDirectorio)(ruta);
   const arrMd = (0, _funciones.searchFilesMd)(arrPathFiles);
-  const arrLinks = arrMd.map(elem => (0, _funciones.getLinks)((0, _funciones.getContent)(elem), elem));
+  const arrLinks = arrMd.map(elem => (0, _funciones.obtenerLinks)((0, _funciones.obtenerContenido)(elem), elem));
   let newArr = [];
   arrLinks.forEach(element => {
     element.forEach(elem => {
@@ -28,7 +28,7 @@ const mdLinks = (path, options) => new Promise((resolve, reject) => {
   setTimeout(() => {
     let newPath = path;
 
-    if ((0, _funciones.isValidPath)(path)) {
+    if ((0, _funciones.pathValidate)(path)) {
       if (!(0, _funciones.pathAbsoluta)(path)) newPath = (0, _funciones.convertPathToAbsolute)(path);
 
       if (options === undefined || !options.validate) {

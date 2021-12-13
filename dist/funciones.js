@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.searchFilesMd = exports.pathAbsoluta = exports.isValidPath = exports.isFilePath = exports.getPathsFromDirectory = exports.getLinks = exports.getContent = exports.convertPathToAbsolute = void 0;
+exports.searchFilesMd = exports.pathValidate = exports.pathFile = exports.pathAbsoluta = exports.obtenerLinks = exports.obtenerContenido = exports.lisDirectorio = exports.convertPathToAbsolute = void 0;
 
 var _fs = _interopRequireDefault(require("fs"));
 
@@ -19,19 +19,19 @@ const {
   JSDOM
 } = _jsdom.default;
 
-const isFilePath = route => {
+const pathFile = route => {
   const stats = _fs.default.lstatSync(route);
 
   const answerStat = stats.isFile();
   return answerStat;
 };
 
-exports.isFilePath = isFilePath;
+exports.pathFile = pathFile;
 
-const getPathsFromDirectory = route => {
+const lisDirectorio = route => {
   let arrPathFiles = [];
 
-  if (isFilePath(route)) {
+  if (pathFile(route)) {
     arrPathFiles.push(route);
   } else {
     const readDirectory = _fs.default.readdirSync(route);
@@ -39,28 +39,28 @@ const getPathsFromDirectory = route => {
     readDirectory.forEach(file => {
       const pathFile = _path.default.join(route, file);
 
-      arrPathFiles = arrPathFiles.concat(getPathsFromDirectory(pathFile));
+      arrPathFiles = arrPathFiles.concat(lisDirectorio(pathFile));
     });
   }
 
   return arrPathFiles;
 };
 
-exports.getPathsFromDirectory = getPathsFromDirectory;
+exports.lisDirectorio = lisDirectorio;
 
 const searchFilesMd = arrPaths => arrPaths.filter(file => {
-  return _path.default.extname(file) === ".md";
+  return _path.default.extname(file) === '.md';
 }); //..............................................
 
 
 exports.searchFilesMd = searchFilesMd;
 const converter = new _showdown.default.Converter();
 
-const getContent = routeFile => _fs.default.readFileSync(routeFile).toString();
+const obtenerContenido = rutaFile => _fs.default.readFileSync(rutaFile).toString();
 
-exports.getContent = getContent;
+exports.obtenerContenido = obtenerContenido;
 
-const getLinks = (contentFile, routeFile) => {
+const obtenerLinks = (contentFile, rutaFile) => {
   const contentHTML = converter.makeHtml(contentFile);
   const dom = new JSDOM(contentHTML);
   const arrayOfTagsA = dom.window.document.querySelectorAll('a');
@@ -69,19 +69,19 @@ const getLinks = (contentFile, routeFile) => {
     arrNew.push({
       href: elem.href,
       text: elem.textContent.slice(0, 50),
-      file: routeFile
+      file: rutaFile
     });
   });
   return arrNew;
 }; //-----------------------------------------------------
 
 
-exports.getLinks = getLinks;
+exports.obtenerLinks = obtenerLinks;
 const cwd = process.cwd();
 
-const isValidPath = route => _fs.default.existsSync(route);
+const pathValidate = route => _fs.default.existsSync(route);
 
-exports.isValidPath = isValidPath;
+exports.pathValidate = pathValidate;
 
 const pathAbsoluta = route => _path.default.isAbsolute(route);
 

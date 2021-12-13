@@ -2,18 +2,17 @@
   "name": "milagros-md-links",
   "version": "1.1.0",
   "main": "dist/md-links.js",
-    "author": "Milagros LC",
+  "author": "Milagros LC",
   "license": "MIT",
   "bin": {
     "md-links": "dist/cli.js"
   },
-
-   "scripts": {
+  "scripts": {
     "api": " node src/funciones.js",
     "mdlinks": "node src/md-links.js",
     "eslint": "eslint --ext .js src/ dist/ test/",
     "pretest.out": "npm run eslint",
-    "test": "jest --verbose --coverage",   
+    "test": "jest --verbose --coverage",
     "deploy": "gh-pages -d ",
     "build": "babel src -d dist"
   },
@@ -32,7 +31,7 @@
     "serve": "^12.0.0",
     "yargs": "^17.3.0"
   },
-   "devDependencies": {
+  "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
@@ -44,5 +43,4 @@
     "eslint-plugin-jest": "^22.1.2",
     "regenerator-runtime": "^0.13.1"
   }
-
 }

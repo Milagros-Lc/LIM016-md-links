@@ -49,8 +49,8 @@ describe('validateLinks', () => {
 });
 
 const links = [
-  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.canva.com/', text: 'Visita este sitio' },
-  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abc.com/', text: 'Visita este sitio' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.canva.com/', text: 'diseños y mas' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abc.com/', text: 'Aprende el ABC' },
   { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.google.com/', text: ' Google' },
   { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.facebook.com/', text: ' Facebook' },
   { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.twitter.com/', text: ' twuitter' },
@@ -58,8 +58,8 @@ const links = [
   { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.canva.com/', text: ' Canvas' }
 ];
 const linksExample = [
-  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.mipagina.com/', text: 'Visita este sitio' },
-  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abecedario.com/', text: 'Visita este sitio' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.mipagina.com/', text: 'Visita mi página' },
+  { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abecedario.com/', text: 'Aprende el ABC' },
    { file: 'C:\\Users\\Milagros\\md-links\\src\\README.md', href: 'https://www.abecedario.com/', text: ' Canvas' }
 ];
 

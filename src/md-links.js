@@ -1,12 +1,12 @@
-import { isValidPath, pathAbsoluta, convertPathToAbsolute } from './funciones';
-import { getPathsFromDirectory, searchFilesMd } from './funciones';
-import { getLinks, getContent } from './funciones';
+import { pathValidate, pathAbsoluta, convertPathToAbsolute } from './funciones';
+import { lisDirectorio, searchFilesMd } from './funciones';
+import { obtenerLinks, obtenerContenido } from './funciones';
 import { validateLinks } from './validate.js'
 
-export const getArrLinks = (route) => new Promise((resolve) => {
-  const arrPathFiles = getPathsFromDirectory(route);
+export const getArrLinks = (ruta) => new Promise((resolve) => {
+  const arrPathFiles = lisDirectorio(ruta);
   const arrMd = searchFilesMd(arrPathFiles);
-  const arrLinks = arrMd.map(elem => getLinks(getContent(elem), elem));
+  const arrLinks = arrMd.map(elem => obtenerLinks(obtenerContenido(elem), elem));
   let newArr = [];
   arrLinks.forEach(element => {
     element.forEach(elem => {
@@ -20,7 +20,7 @@ export const getArrLinks = (route) => new Promise((resolve) => {
 export const mdLinks = (path, options) => new Promise((resolve, reject) => {
   setTimeout(() => {
     let newPath = path;
-    if (isValidPath(path)) {
+    if (pathValidate(path)) {
       if (!pathAbsoluta(path)) newPath = convertPathToAbsolute(path);
       if (options === undefined || !options.validate) {
         return getArrLinks(newPath)
