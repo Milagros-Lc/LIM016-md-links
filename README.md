@@ -1,32 +1,23 @@
-# ----- MARKDOWN LINKS -----
-
-![md](https://user-images.githubusercontent.com/83854147/145736866-88f14e21-d422-493d-beac-460bcd86b4ba.jpg)
+# --------------------------- MARKDOWN LINKS --------------------------
 
 Hecho por @Milagros-Lc
 
-![arbol-navidad-noche-wallpaper-preview](https://user-images.githubusercontent.com/83854147/146034806-8d413b19-42c6-4d31-88fb-0b18012f5f49.jpg)
-
-
-
+  <img  src="https://user-images.githubusercontent.com/83854147/145736866-88f14e21-d422-493d-beac-460bcd86b4ba.jpg" width="200">
 
 ## Índice
 
 * [1. Preámbulo](#1-preámbulo)
 * [2. Resumen del proyecto](#2-resumen-del-proyecto)
-* [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)
-* [4. Consideraciones generales](#4-consideraciones-generales)
-* [5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptación-mínimos-del-proyecto)
-* [6. Entregables](#6-entregables)
-* [7. Hacker edition](#7-hacker-edition)
-* [8. Pistas, tips y lecturas complementarias](#8-pistas-tips-y-lecturas-complementarias)
-* [9. Checklist](#9-checklist)
-* [10. Achicando el problema](#10-achicando-el-problema)
+* [3. Consideraciones generales](#3-consideraciones-generales)
+* [4. Instalación](#4-instalación)
+* [5. Modo de Uso](#5-modo-de-uso)
+* [6. Tests](#6-tests)
 
 ***
 
 ## 1. Preámbulo
 
-Es un lenguaje de marcado ligero muy popular entre developers. Es usado en muchísimas 
+MArkDown Es un lenguaje de marcado ligero muy popular entre developers. Es usado en muchísimas 
 plataformas que manejan texto plano (GitHub, foros, blogs, ...), y es muy común
 encontrar varios archivos en ese formato en cualquier tipo de repositorio
 (empezando por el tradicional `README.md`).
@@ -50,8 +41,6 @@ En este proyecto crearemos una herramienta de línea de comando (CLI) así como 
 
 ## 3. Consideraciones generales
 
-* Este proyecto se debe "resolver" de manera individual.
-
 * La **librería** y el **script ejecutable** (herramienta de línea de comando -
   CLI) deben estar implementados en JavaScript para ser ejecutados con
   Node.js. **Está permitido usar librerías externas**.
@@ -73,7 +62,7 @@ En este proyecto crearemos una herramienta de línea de comando (CLI) así como 
 
 ## Este proyecto consta de DOS partes
 
-### 1) JavaScript API
+### 1) JavaScript API - Diagrama de Flujo
 
 ![diagramAPI](https://user-images.githubusercontent.com/83854147/145738135-cf6dc84f-4d54-494b-b7cd-201a5baf70fd.png)
 
@@ -136,7 +125,7 @@ mdLinks("./some/dir")
   .catch(console.error);
 ```
 
-### 2) CLI (Command Line Interface - Interfaz de Línea de Comando)
+### 2) CLI (Command Line Interface - Interfaz de Línea de Comando) - Diagrama de Fujo
 
 ![diagramCLI](https://user-images.githubusercontent.com/83854147/145738120-d6a67868-2970-40ee-bf53-db42d9594977.png)
 
@@ -233,23 +222,8 @@ Haciendo referencia a la librería, al directorio a buscar y la opcion --validat
  
   Haciendo referencia a la librería, al directorio a buscar y la opcion --stats --validate ó --validate --stats, así como muestra la siguiente imagen:
 
-![md-links ruta --validate --stats](https://user-images.githubusercontent.com/83854147/145739972-935a8225-7976-4e60-8bda-f408833be9ce.png)  
+![md-links ruta --validate --stats](https://user-images.githubusercontent.com/83854147/145739972-935a8225-7976-4e60-8bda-f408833be9ce.png) 
   
-## 6. Entregables
+ ## 6. Tests
+![test-md-links](https://user-images.githubusercontent.com/83854147/153698351-e7db1c77-33df-4869-906d-4891820223b8.png)
 
-Módulo instalable via `npm install <github-user>/md-links`. Este módulo debe
-incluir tanto **un ejecutable** como **una interfaz** que podamos importar con `require`
-para usarlo programáticamente.
-
-## 7. Hacker edition
-
-Las secciones llamadas _Hacker Edition_ son **opcionales**. Si **terminaste**
-con todo lo anterior y te queda tiempo, intenta completarlas. Así podrás
-profundizar y/o ejercitar más sobre los objetivos de aprendizaje del proyecto.
-
-* Puedes agregar la propiedad `line` a cada objeto `link` indicando en qué línea
-  del archivo se encontró el link.
-* Puedes agregar más estadísticas.
-* Integración continua con Travis o Circle CI.
-
-***
